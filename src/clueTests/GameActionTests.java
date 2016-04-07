@@ -118,13 +118,13 @@ public class GameActionTests {
     
     @Test
     public void testSuggestionOneCorrect() { // test case where only one part of the suggestion is correct
-    	Solution suggestion = new Solution("Unoriginal MechE", "blah", "bleh");
+    	Solution suggestion = new Solution("Unoriginal MechE", "wrongWeapon", "wrongRoom");
     	assertEquals(tester.disproveSuggestion(suggestion), mechE);
 
-    	suggestion = new Solution("blah", "QuadCopter", "bleh");
+    	suggestion = new Solution("wrongPerson", "QuadCopter", "wrongRoom");
     	assertEquals(tester.disproveSuggestion(suggestion), quad);
     	
-    	suggestion = new Solution("blah", "bleh", "Bathroom");
+    	suggestion = new Solution("wrongPerson", "wrongWeapon", "Bathroom");
     	assertEquals(tester.disproveSuggestion(suggestion), bathroom);    	
     }
     
@@ -135,7 +135,7 @@ public class GameActionTests {
     	int bathroomReturned = 0;
     	
 		for (int i = 0; i < 1000; i++) {
-			Solution suggestion = new Solution("Unoriginal MechE", "QuadCopter", "blah");
+			Solution suggestion = new Solution("Unoriginal MechE", "QuadCopter", "wrongRoom");
 			Card result = tester.disproveSuggestion(suggestion);
 			if (result.equals(mechE)) {
 				mechEReturned++;
@@ -145,7 +145,7 @@ public class GameActionTests {
 				fail("Unexpected card returned");
 			}
 
-			suggestion = new Solution("blah", "QuadCopter", "Bathroom");
+			suggestion = new Solution("wrongPerson", "QuadCopter", "Bathroom");
 			result = tester.disproveSuggestion(suggestion);
 			if (result.equals(quad)) {
 				quadReturned++;
@@ -155,7 +155,7 @@ public class GameActionTests {
 				fail("Unexpected card returned");
 			}
 
-			suggestion = new Solution("Unoriginal MechE", "blah", "Bathroom");
+			suggestion = new Solution("Unoriginal MechE", "wrongWeapon", "Bathroom");
 			result = tester.disproveSuggestion(suggestion);
 			if (result.equals(mechE)) {
 				mechEReturned++;
@@ -221,42 +221,42 @@ public class GameActionTests {
     @Test
     public void testSuggestionAllPlayersUndisprovable() { // this tests a case where no players can disprove a suggestion
     	createPlayers();
-    	Solution suggestion = new Solution("blah", "bleh", "blergh");
+    	Solution suggestion = new Solution("wrongPerson", "wrongWeapon", "wrongRoom");
     	assertEquals(null, board.handleSuggestion(suggestion, npc1, new BoardCell(DoorDirection.NONE, 'W')));
     }
     
     @Test
     public void testAllPlayersHumanDisproving() { // tests case where only human can disprove
     	createPlayers();
-    	Solution suggestion = new Solution("blah", "Knife", "bleh");
+    	Solution suggestion = new Solution("wrongPerson", "Knife", "wrongRoom");
     	assertEquals(new Card("Knife", CardType.WEAPON), board.handleSuggestion(suggestion, npc1, new BoardCell(DoorDirection.NONE, 'W')));
     }
     
     @Test
     public void testDecoySuggestionHuman() { // tests case where the person suggesting is the only person able to disprove, such that null is returned
     	createPlayers();
-    	Solution suggestion = new Solution("blah", "Knife", "bleh");
+    	Solution suggestion = new Solution("wrongPerson", "Knife", "wrongRoom");
     	assertEquals(null, board.handleSuggestion(suggestion, human, new BoardCell(DoorDirection.NONE, 'W'))); // human has Knife, so null should be returned
     }
     
     @Test
     public void testDecoySuggestionNPC1() { // tests case where the person suggesting is the only person able to disprove, such that null is returned
     	createPlayers();
-    	Solution suggestion = new Solution("John", "blah", "bleh");
+    	Solution suggestion = new Solution("John", "wrongWeapon", "wrongRoom");
     	assertEquals(null, board.handleSuggestion(suggestion, npc1, new BoardCell(DoorDirection.NONE, 'W'))); //npc1 has John, so null should be returned
     }
     
     @Test
     public void testOrderOfDisproving() { // this tests the case where multiple people can disprove, ensuring that the first person disproves
     	createPlayers();
-    	Solution suggestion = new Solution("Jack", "Knife", "bleh"); // both npc3 and human have cards. npc3 is first in line so Jack should be returned
+    	Solution suggestion = new Solution("Jack", "Knife", "wrongRoom"); // both npc3 and human have cards. npc3 is first in line so Jack should be returned
     	assertEquals(new Card("Jack", CardType.PERSON), board.handleSuggestion(suggestion, npc1, new BoardCell(DoorDirection.NONE, 'W')));
     }
     
     @Test
     public void testAllDisproving() { // this tests ensures that all people are being queried for disproving
     	createPlayers();
-    	Solution suggestion = new Solution("Jack", "blah", "bleh"); // npc3 has Jack, and is farthest from npc4, so all players should be queried first before returning Jack
+    	Solution suggestion = new Solution("Jack", "wrongWeapon", "wrongRoom"); // npc3 has Jack, and is farthest from npc4, so all players should be queried first before returning Jack
     	assertEquals(new Card("Jack", CardType.PERSON), board.handleSuggestion(suggestion, npc4, new BoardCell(DoorDirection.NONE, 'W')));
     }
     
