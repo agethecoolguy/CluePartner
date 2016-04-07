@@ -28,6 +28,9 @@ public class BoardCell extends JPanel {
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		// There are TWO drawn components here. The last one drawn will be superimposed over the first
+		// This may cause some visual bugs where elements appear to disappear if they are drawn in the wrong order.
+		
 		if (roomLetter == 'W') {
 			g.setColor(Color.YELLOW);
 			g.fillRect(x, y, SIDE_LENGTH, SIDE_LENGTH);
@@ -41,15 +44,19 @@ public class BoardCell extends JPanel {
 			switch (doorDirection) {
 			case UP:
 				g2.draw(new Line2D.Float(x, y + STROKE_SIZE, x + SIDE_LENGTH, y + STROKE_SIZE));
+				// Increase y direction by STROKE_SIZE to translate the door stroke up
 				break;
 			case LEFT:
 				g2.draw(new Line2D.Float(x + STROKE_SIZE, y, x + STROKE_SIZE, y + SIDE_LENGTH));
+				// Increase x direction by STROKE_SIZE to translate the door stroke right
 				break;
 			case RIGHT:
 				g2.draw(new Line2D.Float(x + SIDE_LENGTH - STROKE_SIZE, y, x + SIDE_LENGTH - STROKE_SIZE, y + SIDE_LENGTH));
+				// Reduce x direction by STROKE_SIZE to translate the door stroke left
 				break;
 			case DOWN:
 				g2.draw(new Line2D.Float(x, y + SIDE_LENGTH - STROKE_SIZE, x + SIDE_LENGTH, y + SIDE_LENGTH - STROKE_SIZE));
+				// Reduce y direction by STROKE_SIZE to translate the door stroke down
 				break;
 			case NONE:
 				break;
