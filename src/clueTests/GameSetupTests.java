@@ -44,7 +44,7 @@ public class GameSetupTests {
 
         // Assert that correct colors are assigned
         assertEquals(gamePlayers.get(0).getColor(), Color.red);
-        assertEquals(gamePlayers.get(1).getColor(), Color.yellow);
+        assertEquals(gamePlayers.get(1).getColor(), Color.white);
         assertEquals(gamePlayers.get(2).getColor(), Color.green);
         assertEquals(gamePlayers.get(3).getColor(), Color.cyan);
         assertEquals(gamePlayers.get(4).getColor(), Color.blue);

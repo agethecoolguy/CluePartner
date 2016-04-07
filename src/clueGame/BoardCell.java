@@ -18,6 +18,7 @@ public class BoardCell extends JPanel {
 	public DoorDirection doorDirection;
 	private char roomLetter;
 	private String roomName;
+	public static final int STROKE_SIZE = 3;
 
 	public BoardCell(DoorDirection doorDirection, char roomLetter) {
 		this.doorDirection = doorDirection;
@@ -36,19 +37,19 @@ public class BoardCell extends JPanel {
 		else if (isDoorway()) {
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setColor(Color.BLUE);
-			g2.setStroke(new BasicStroke(3));
+			g2.setStroke(new BasicStroke(STROKE_SIZE));
 			switch (doorDirection) {
 			case UP:
-				g2.draw(new Line2D.Float(x, y, x + SIDE_LENGTH, y));
+				g2.draw(new Line2D.Float(x, y + STROKE_SIZE, x + SIDE_LENGTH, y + STROKE_SIZE));
 				break;
 			case LEFT:
-				g2.draw(new Line2D.Float(x, y, x, y + SIDE_LENGTH));
+				g2.draw(new Line2D.Float(x + STROKE_SIZE, y, x + STROKE_SIZE, y + SIDE_LENGTH));
 				break;
 			case RIGHT:
-				g2.draw(new Line2D.Float(x + SIDE_LENGTH, y, x + SIDE_LENGTH, y + SIDE_LENGTH));
+				g2.draw(new Line2D.Float(x + SIDE_LENGTH - STROKE_SIZE, y, x + SIDE_LENGTH - STROKE_SIZE, y + SIDE_LENGTH));
 				break;
 			case DOWN:
-				g2.draw(new Line2D.Float(x, y + SIDE_LENGTH, x + SIDE_LENGTH, y + SIDE_LENGTH));
+				g2.draw(new Line2D.Float(x, y + SIDE_LENGTH - STROKE_SIZE, x + SIDE_LENGTH, y + SIDE_LENGTH - STROKE_SIZE));
 				break;
 			case NONE:
 				break;
