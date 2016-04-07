@@ -25,14 +25,11 @@ public class ComputerPlayer extends Player {
                 doorwayTargets.add(b);
             }
         }
-        if (doorwayTargets.size() == 1) {
-            // only one unvisited room
-            cellToReturn = doorwayTargets.get(0); 
-        } else if (doorwayTargets.size() > 1) {
-            // more than one room, possibly with one visited
+        if (doorwayTargets.size() >= 1) {
+            // one or more rooms, possibly with one visited
             cellToReturn = doorwayTargets.get(rng.nextInt(doorwayTargets.size()));
         } else {
-            // no rooms, or rooms weve already visited
+            // no rooms, or rooms we've already visited
             cellToReturn = arrayTargets.get(rng.nextInt(targets.size()));
         }
         
