@@ -24,20 +24,18 @@ public class Board extends JPanel {
 	public final int NUM_WEAPONS = 6;
 	private int numColumns, numRows;
 	private BoardCell[][] board;
-	private static Map<Character, String> rooms;
-	private Set<String> cardRooms;
+	private static Map<Character, String> rooms; //this maps room characters to room names
+	private Set<String> roomNames;
 	private String boardFile;
 	private String legendFile;
 	private String playersFile;
 	private String weaponsFile;
-	private Set<BoardCell> visited;
-	private Set<BoardCell> targets;
+	private Set<BoardCell> visitedCells;
+	private Set<BoardCell> targetCells;
 	private Map<BoardCell, LinkedList<BoardCell>> adjacencyMatrix;
 	private ArrayList<Player> players;
-	private ArrayList<String> weapons;
-
-
-    private Set<Card> cards;
+	private ArrayList<String> weaponNames;
+    private Set<Card> deckOfCards;
 	private Solution solution;
 
 	public Board() {
@@ -64,9 +62,9 @@ public class Board extends JPanel {
 		adjacencyMatrix = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		rooms = new HashMap<Character, String>();
 		players = new ArrayList<Player>();
-		cardRooms = new HashSet<String>();
-		weapons = new ArrayList<String>();
-		cards = new HashSet<Card>();
+		roomNames = new HashSet<String>();
+		weaponNames = new ArrayList<String>();
+		deckOfCards = new HashSet<Card>();
 	}
 
 	public void initialize() {
@@ -108,7 +106,7 @@ public class Board extends JPanel {
 				
 				String type = data[2].trim();
 				if (type.equals("Card")) {
-					cardRooms.add(roomName);
+					roomNames.add(roomName);
 				} else if (type.equals("Other")) {
 					//do nothing
 				} else {
@@ -243,7 +241,7 @@ public class Board extends JPanel {
         		throw new BadConfigFormatException("Not enough weapons in " + weaponsFile);
         	}
         	String weaponName = in.nextLine();
-        	weapons.add(weaponName);
+        	weaponNames.add(weaponName);
         }
         
         if (in.hasNextLine()) {
@@ -263,11 +261,11 @@ public class Board extends JPanel {
 		Random rng = new Random();
 		// put cards into solution, removing them from the list
         String solutionPerson = players.get(rng.nextInt(players.size())).getPlayerName();
-        cards.remove(new Card(solutionPerson, CardType.PERSON));
-        String solutionWeapon = weapons.get(rng.nextInt(weapons.size()));
-        cards.remove(new Card(solutionWeapon, CardType.WEAPON));
-        String solutionRoom = (new ArrayList<String>(cardRooms)).get(rng.nextInt(cardRooms.size()));
-        cards.remove(new Card(solutionRoom, CardType.ROOM));
+        deckOfCards.remove(new Card(solutionPerson, CardType.PERSON));
+        String solutionWeapon = weaponNames.get(rng.nextInt(weaponNames.size()));
+        deckOfCards.remove(new Card(solutionWeapon, CardType.WEAPON));
+        String solutionRoom = (new ArrayList<String>(roomNames)).get(rng.nextInt(roomNames.size()));
+        deckOfCards.remove(new Card(solutionRoom, CardType.ROOM));
         setSolution(new Solution(solutionPerson, solutionWeapon, solutionRoom));
 	}
 	
@@ -338,13 +336,13 @@ public class Board extends JPanel {
 	
 	private void setUpCards() {
 		for (Player person : players) {
-			cards.add(new Card(person.getPlayerName(), CardType.PERSON));
+			deckOfCards.add(new Card(person.getPlayerName(), CardType.PERSON));
 		}
-		for (String weapon : weapons) {
-			cards.add(new Card(weapon, CardType.WEAPON));
+		for (String weapon : weaponNames) {
+			deckOfCards.add(new Card(weapon, CardType.WEAPON));
 		}
-		for (String roomName : cardRooms) {
-			cards.add(new Card(roomName, CardType.ROOM));
+		for (String roomName : roomNames) {
+			deckOfCards.add(new Card(roomName, CardType.ROOM));
 		}
 	}
 	
@@ -353,14 +351,14 @@ public class Board extends JPanel {
         selectAnswer();
         // distribute remaining cards to the players
         int playerNumber = 0;
-        int originalSize = cards.size();
+        int originalSize = deckOfCards.size();
         for (int i = 0; i < originalSize; i++) {
             Player nextPlayer = players.get(playerNumber++ % players.size());
-            int randIndex = rng.nextInt(cards.size());
-            Card cardToAdd = (Card) cards.toArray()[randIndex];
+            int randIndex = rng.nextInt(deckOfCards.size());
+            Card cardToAdd = (Card) deckOfCards.toArray()[randIndex];
             nextPlayer.getSeenCards().add(cardToAdd);
             nextPlayer.getMyCards().add(cardToAdd);
-            cards.remove(cardToAdd); // remove the card from the deck once its in someone's hand
+            deckOfCards.remove(cardToAdd); // remove the card from the deck once its in someone's hand
         }
     }
 	
@@ -433,9 +431,9 @@ public class Board extends JPanel {
 	}
 
 	private void calcTargets(BoardCell boardCell, int steps) {
-		visited = new HashSet<BoardCell>();
-		visited.add(boardCell);
-		targets = new HashSet<BoardCell>();
+		visitedCells = new HashSet<BoardCell>();
+		visitedCells.add(boardCell);
+		targetCells = new HashSet<BoardCell>();
 
 		findAllTargets(boardCell, steps);
 	}
@@ -444,18 +442,18 @@ public class Board extends JPanel {
 		LinkedList<BoardCell> adjacentCells = new LinkedList<BoardCell>();
 		calcAdjacencies();
 		adjacentCells = adjacencyMatrix.get(boardCell);
-		for (BoardCell cell : visited) {
+		for (BoardCell cell : visitedCells) {
 			if (adjacentCells.contains(cell)) adjacentCells.remove(cell);
 		}
 
 		for (BoardCell adjCell : adjacentCells) {
-			visited.add(adjCell);
+			visitedCells.add(adjCell);
 			if (steps == 1 || adjCell.isDoorway()){
-				targets.add(adjCell);
+				targetCells.add(adjCell);
 			} else {
 			    findAllTargets(adjCell, steps - 1);
 			}
-			visited.remove(adjCell);
+			visitedCells.remove(adjCell);
 		}		
 	}
 	
@@ -480,7 +478,7 @@ public class Board extends JPanel {
 	}
 
 	public Set<BoardCell> getTargets() {
-		return targets;
+		return targetCells;
 	}
 	
 	public static Map<Character, String> getRooms() {
@@ -488,7 +486,7 @@ public class Board extends JPanel {
 	}
 
 	public Set<String> getCardRooms() {
-        return cardRooms;
+        return roomNames;
     }
 
     public int getNumRows() {
@@ -513,7 +511,7 @@ public class Board extends JPanel {
     }
 
     public ArrayList<String> getWeapons() {
-        return weapons;
+        return weaponNames;
     }
 	   
 	//for the sake of testing:
@@ -522,7 +520,7 @@ public class Board extends JPanel {
 	}
 
 	public Set<Card> getCards() {
-		return cards;
+		return deckOfCards;
 	}
 
     public Solution getSolution() {
