@@ -272,18 +272,23 @@ public class Board extends JPanel {
 	}
 	
 	public Card handleSuggestion(Solution suggestion, Player accusingPlayer, BoardCell clicked) {
-		int indexOfAccuser = -1;
+		int indexOfAccuser = -1; //This is an error code: index of accuser should never be -1
 		
 		indexOfAccuser = players.indexOf(accusingPlayer);
+		if (indexOfAccuser == -1) {
+			throw new RuntimeException("Index of accusing player not found.");
+		}
 		Card result = null;
 		
 		for (int i = 0; i < NUM_PLAYERS - 1; i++) {
 			Player currentPlayer = players.get((indexOfAccuser + i + 1) % NUM_PLAYERS);
+			// If indexOfaccuser + i + 1 exceeds NUM_PLAYERS, the modulo operator causes a "wraparound" effect.
+			// This ensures that each player is queried.
 			result = currentPlayer.disproveSuggestion(suggestion);
-			if (result == null) {
+			if (result == null) { // if the player does not have a matching card, continue to next player
 				continue;
 			}
-			else {
+			else { // break for the first player that has a matching card
 				break;
 			}
 		}
