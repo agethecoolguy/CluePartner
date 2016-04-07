@@ -12,8 +12,8 @@ public class BoardCell extends JPanel {
 	public static final int SIDE_LENGTH = 30;
 	private int row;
 	private int column;
-	private int x;
-	private int y;
+	private int xPixelCoordinate;
+	private int yPixelCoordinate;
 	private Boolean isNameCell;
 	public DoorDirection doorDirection;
 	private char roomLetter;
@@ -33,9 +33,9 @@ public class BoardCell extends JPanel {
 		
 		if (roomLetter == 'W') {
 			g.setColor(Color.YELLOW);
-			g.fillRect(x, y, SIDE_LENGTH, SIDE_LENGTH);
+			g.fillRect(xPixelCoordinate, yPixelCoordinate, SIDE_LENGTH, SIDE_LENGTH);
 			g.setColor(Color.BLACK);
-			g.drawRect(x, y, SIDE_LENGTH, SIDE_LENGTH);
+			g.drawRect(xPixelCoordinate, yPixelCoordinate, SIDE_LENGTH, SIDE_LENGTH);
 		}
 		else if (isDoorway()) {
 			Graphics2D g2 = (Graphics2D) g;
@@ -43,19 +43,19 @@ public class BoardCell extends JPanel {
 			g2.setStroke(new BasicStroke(STROKE_SIZE));
 			switch (doorDirection) {
 			case UP:
-				g2.draw(new Line2D.Float(x, y + STROKE_SIZE, x + SIDE_LENGTH, y + STROKE_SIZE));
+				g2.draw(new Line2D.Float(xPixelCoordinate, yPixelCoordinate + STROKE_SIZE, xPixelCoordinate + SIDE_LENGTH, yPixelCoordinate + STROKE_SIZE));
 				// Increase y direction by STROKE_SIZE to translate the door stroke up
 				break;
 			case LEFT:
-				g2.draw(new Line2D.Float(x + STROKE_SIZE, y, x + STROKE_SIZE, y + SIDE_LENGTH));
+				g2.draw(new Line2D.Float(xPixelCoordinate + STROKE_SIZE, yPixelCoordinate, xPixelCoordinate + STROKE_SIZE, yPixelCoordinate + SIDE_LENGTH));
 				// Increase x direction by STROKE_SIZE to translate the door stroke right
 				break;
 			case RIGHT:
-				g2.draw(new Line2D.Float(x + SIDE_LENGTH - STROKE_SIZE, y, x + SIDE_LENGTH - STROKE_SIZE, y + SIDE_LENGTH));
+				g2.draw(new Line2D.Float(xPixelCoordinate + SIDE_LENGTH - STROKE_SIZE, yPixelCoordinate, xPixelCoordinate + SIDE_LENGTH - STROKE_SIZE, yPixelCoordinate + SIDE_LENGTH));
 				// Reduce x direction by STROKE_SIZE to translate the door stroke left
 				break;
 			case DOWN:
-				g2.draw(new Line2D.Float(x, y + SIDE_LENGTH - STROKE_SIZE, x + SIDE_LENGTH, y + SIDE_LENGTH - STROKE_SIZE));
+				g2.draw(new Line2D.Float(xPixelCoordinate, yPixelCoordinate + SIDE_LENGTH - STROKE_SIZE, xPixelCoordinate + SIDE_LENGTH, yPixelCoordinate + SIDE_LENGTH - STROKE_SIZE));
 				// Reduce y direction by STROKE_SIZE to translate the door stroke down
 				break;
 			case NONE:
@@ -68,7 +68,7 @@ public class BoardCell extends JPanel {
 		
 		if (isNameCell) {
 			g.setColor(Color.BLACK);
-			g.drawString(roomName, x, y);
+			g.drawString(roomName, xPixelCoordinate, yPixelCoordinate);
 		}
 		
 	}
@@ -101,7 +101,7 @@ public class BoardCell extends JPanel {
 
 	public void setRow(int row) {
 		this.row = row;
-		y = row * SIDE_LENGTH;
+		yPixelCoordinate = row * SIDE_LENGTH;
 	}
 
 	public int getCol() {
@@ -110,7 +110,7 @@ public class BoardCell extends JPanel {
 
 	public void setCol(int col) {
 		this.column = col;
-		x = col * SIDE_LENGTH;
+		xPixelCoordinate = col * SIDE_LENGTH;
 	}
 
 	public char getRoomLetter() {
