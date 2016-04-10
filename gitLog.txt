@@ -1,5 +1,64 @@
-DEFAULT REPOSITORY USED
-Pair programming used during class, resulting in more commits by Adrien than by Caleb
+
+
+commit 260e2fcc423e1af4b868bc90694e8ed8e25f8480
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 12:16:00 2016 -0600
+
+    Refactored multiple variable names in Board to improve their descriptiveness. Included comments to explain functionality
+
+commit 37f134d73375eda421c977d278455edab2240e6c
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 12:09:33 2016 -0600
+
+    Modified names of variables in Player and Board Cell to better reflect their functionality
+
+commit 50054ae0b525725b448e3f7463b99513269e0278
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 12:01:08 2016 -0600
+
+    Improved error handling and detection in Board member handleSuggestion. Added exaplanatory comments.
+
+commit 64692374453ba820ad961ab673f50181f16ec765
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 11:55:30 2016 -0600
+
+    Removed unnecessary code from ComputerPlayer, improved efficiency/readablity
+
+commit c0600fd49c2897b1d674525a28ea17222f2ab36c
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 11:51:26 2016 -0600
+
+    Greatly improved readability of game action tests; improved vocabulary choice for variable names
+
+commit d4c65197a87ba710a83685cf2e1f62648b9d5398
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 11:46:44 2016 -0600
+
+    Added comments better explaining the functionality of BoardCell draw function.
+
+commit 236ba8fcb435dcafd468159929c7154d36669408
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 11:42:03 2016 -0600
+
+    Fixed a visual bug in which doors sometime appeared larger than usual
+
+commit a82671ddb95d7d85a8835f13918d17bd986befc8
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Thu Apr 7 11:25:33 2016 -0600
+
+    Corrected a navigation bug that would have caused walkways to be considered as rooms
+
+commit d7387b87a9ebb3a8277f7fbe3426753caec833e7
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Thu Apr 7 11:21:39 2016 -0600
+
+    Testing new repository
+
+commit 7562cf418ea3a3df46a0210f414b722531398503
+Author: Caleb Jhones <calebjhones@gmail.com>
+Date:   Mon Apr 4 18:36:40 2016 -0600
+
+    updated gitLog.txt
 
 commit b8eb207e3ba913a2948a32d1824f464a54fecc4a
 Author: Caleb Jhones <calebjhones@gmail.com>
