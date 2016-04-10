@@ -19,7 +19,7 @@ public class ComputerPlayer extends Player {
         ArrayList<BoardCell> doorwayTargets = new ArrayList<BoardCell>();
         ArrayList<BoardCell> arrayTargets = new ArrayList<BoardCell>();
         BoardCell cellToReturn = null;
-        for (BoardCell b : targets) {
+        for (BoardCell b : targets) { // this loop determines each target that consists of an unvisited doorway
             arrayTargets.add(b);
             if (b.isDoorway() && (b.getRoomLetter() != roomLastVisited)) {
                 doorwayTargets.add(b);
@@ -33,7 +33,7 @@ public class ComputerPlayer extends Player {
             cellToReturn = arrayTargets.get(rng.nextInt(targets.size()));
         }
         
-        if (cellToReturn.isDoorway()){
+        if (cellToReturn.isDoorway()){ // this ensures that walkways are never considered as "rooms"
             roomLastVisited = cellToReturn.getRoomLetter();
         }
         return cellToReturn;
