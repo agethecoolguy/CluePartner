@@ -367,3 +367,400 @@ Author: Shawn Andrew <sandrew@mines.edu>
 Date:   Thu Feb 25 17:42:59 2016 -0700
 
     Initial Commit
+commit 3cd21e779af8d2b5e97bacb9a26cf18a72bd08d3
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Sun Apr 10 23:11:18 2016 -0600
+
+    Added the Splash screen
+
+commit cb596cd0e84dc07fa134d17e7c09854a5ea0845e
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Sun Apr 10 20:06:31 2016 -0600
+
+    Added player card display class. Improved UI to better accomodate components
+
+commit ffcbaeb5066ae7eae8af61cc5ea8641112635809
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Sun Apr 10 14:37:19 2016 -0600
+
+    Update gitigore (again)
+
+commit 622e73e784faaae3d1090b1d6169916df3ca8336
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Sun Apr 10 14:35:44 2016 -0600
+
+    Updated gitLog.txt
+
+commit 8b050dfd9a895a7098cf38dc367247d67f86f86e
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Sun Apr 10 14:27:01 2016 -0600
+
+    Updated gitignore
+
+commit 260e2fcc423e1af4b868bc90694e8ed8e25f8480
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 12:16:00 2016 -0600
+
+    Refactored multiple variable names in Board to improve their descriptiveness. Included comments to explain functionality
+
+commit 37f134d73375eda421c977d278455edab2240e6c
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 12:09:33 2016 -0600
+
+    Modified names of variables in Player and Board Cell to better reflect their functionality
+
+commit 50054ae0b525725b448e3f7463b99513269e0278
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 12:01:08 2016 -0600
+
+    Improved error handling and detection in Board member handleSuggestion. Added exaplanatory comments.
+
+commit 64692374453ba820ad961ab673f50181f16ec765
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 11:55:30 2016 -0600
+
+    Removed unnecessary code from ComputerPlayer, improved efficiency/readablity
+
+commit c0600fd49c2897b1d674525a28ea17222f2ab36c
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 11:51:26 2016 -0600
+
+    Greatly improved readability of tests. Improved vocabulary choice
+
+commit d4c65197a87ba710a83685cf2e1f62648b9d5398
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 11:46:44 2016 -0600
+
+    Added comments better explaining the functionality of BoardCell draw function.
+
+commit 236ba8fcb435dcafd468159929c7154d36669408
+Author: Anna Kight <akight@mymail.mines.edu>
+Date:   Thu Apr 7 11:42:03 2016 -0600
+
+    Fixed door size problem
+
+commit a82671ddb95d7d85a8835f13918d17bd986befc8
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Thu Apr 7 11:25:33 2016 -0600
+
+    Corrected a navigation bug
+
+commit d7387b87a9ebb3a8277f7fbe3426753caec833e7
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Thu Apr 7 11:21:39 2016 -0600
+
+    Testing new repository
+
+commit 7562cf418ea3a3df46a0210f414b722531398503
+Author: Caleb Jhones <calebjhones@gmail.com>
+Date:   Mon Apr 4 18:36:40 2016 -0600
+
+    updated gitLog.txt
+
+commit b8eb207e3ba913a2948a32d1824f464a54fecc4a
+Author: Caleb Jhones <calebjhones@gmail.com>
+Date:   Mon Apr 4 18:34:15 2016 -0600
+
+    completed detective notes dialog, ready for submission
+
+commit d9e0ba6eb3c7903f3b091af5b8669bc376b1b9bc
+Author: Caleb Jhones <calebjhones@gmail.com>
+Date:   Mon Apr 4 17:50:45 2016 -0600
+
+    Progress made on DetectiveNotesGUI to include dropdown menus
+
+commit 8af889c169d4759f475d22b9ad48e25bd4c85322
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Sun Apr 3 20:38:56 2016 -0600
+
+    Added color coding functionality to board cell
+
+commit 6b6300d0fe6e7856fb7829bff6394b2a2d818192
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Sun Apr 3 20:36:40 2016 -0600
+
+    Added full draw functionality to Board, Player, and BoardCell
+
+commit a1e5045fd21a561388e0b72f9fa2a8dba78c4945
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Tue Mar 29 20:53:09 2016 -0600
+
+    Added draw functionality to BoardCells
+
+commit fd92c079d724374b59a0ff6cff4e1a4c163efb83
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Tue Mar 29 12:17:40 2016 -0600
+
+    Started work on Board GUI
+
+commit 228519e12e3c08f4ba8176f6130db20eb790c275
+Author: Caleb Jhones <calebjhones@gmail.com>
+Date:   Mon Mar 28 21:46:36 2016 -0600
+
+    gitLog.txt updated
+
+commit 8155b53c5a03e44ce7b34d1e4cb0269b8380d15b
+Author: Caleb Jhones <calebjhones@gmail.com>
+Date:   Mon Mar 28 21:41:35 2016 -0600
+
+    Finished GameControlGUI implementation to include required buttons
+
+commit c5531d7bfb326d36e77c68de78c12222db4c00be
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Sun Mar 27 18:57:58 2016 -0600
+
+    Completed most of GameControlGUI
+
+commit 235d34fa0d5a1e53c095bb9fc89a47a4965007b1
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Thu Mar 24 18:11:12 2016 -0600
+
+    .gitignore update
+
+commit 995d76610df3c174f94e0d49f145be34937b4adb
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Thu Mar 24 18:06:34 2016 -0600
+
+    All tests for target selection now pass
+
+commit ca015290067a348218b189dea9add747fd75a391
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Thu Mar 24 15:36:34 2016 -0600
+
+    Code cleanup
+
+commit bf17d1e67cb911653b9681111081af753d7e5e07
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Thu Mar 24 15:32:40 2016 -0600
+
+    All tests for suggestions now pass
+
+commit 2e94dd8510229f2d642eb10a2bbbe65b6020ec98
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Thu Mar 24 12:18:01 2016 -0600
+
+    Worked on makign tests pass
+
+commit de74ff31cebd2c2f5cfbc5240d56b02522d6c757
+Author: Caleb Jhones <calebjhones@gmail.com>
+Date:   Wed Mar 23 22:10:28 2016 -0600
+
+    Finished target selection tests
+
+commit 77fcf4cafc877b9edd53253ed30888e820f4cf6d
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Wed Mar 23 18:58:43 2016 -0600
+
+    Completed failing tests for disproving suggestions
+
+commit 7a1e81793a992543a995b5991abfb46649666d35
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Tue Mar 22 23:14:20 2016 -0600
+
+    Added tests for disproveSuggestions: not complete
+
+commit 07a381cb8beb12e68842e1c314a5bc534d1bc245
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Tue Mar 22 22:37:34 2016 -0600
+
+    Updated gitLog.txt
+
+commit d221d087f57801133390203437c87bc248bec603
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Tue Mar 22 22:32:09 2016 -0600
+
+    Final commenting/cleanup before submission
+
+commit a526b68acca39bcc9f237d0b782c8719f4f020b6
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Tue Mar 22 22:25:49 2016 -0600
+
+    checkAccusation tests now pass
+
+commit c6271b651ef7f7daf8a80323646669516489beab
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Tue Mar 22 22:21:40 2016 -0600
+
+    Completed failing tests for checkAccusation method
+
+commit dd30094efa207124eab1505efa6b83e650292cd8
+Author: Caleb Jhones <calebjhones@gmail.com>
+Date:   Tue Mar 22 21:51:52 2016 -0600
+
+    Completed implementing card dealing
+
+commit 08ee813f0d1db406a17e606fadb3bce905d30628
+Author: Caleb Jhones <calebjhones@gmail.com>
+Date:   Tue Mar 22 21:26:41 2016 -0600
+
+    Finished implementing card dealing, working out minor bugs
+
+commit ec51921edf444ce5cd5b736fdcddbe49f915f7f1
+Author: Caleb Jhones <calebjhones@gmail.com>
+Date:   Tue Mar 22 20:37:31 2016 -0600
+
+    Finished writing failing tests for the dealing algorithm
+
+commit 85273235dfd572ce4b5435bf41f2d97295dd61bc
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Tue Mar 22 12:16:11 2016 -0600
+
+    Added additional setup files
+
+commit ae2b045a039af8cc711730ab644acb4d60ad477d
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Tue Mar 22 12:15:57 2016 -0600
+
+    Tests for players and cards now pass.
+
+commit 97ff4a80dba66555d9c43de16a46f326b7fc9065
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Tue Mar 22 11:38:12 2016 -0600
+
+    Completed failing tests for card creation
+
+commit 7f6bfc78a31f415f761d79afaeb24a52d1987038
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Mon Mar 21 16:38:24 2016 -0600
+
+    Completed failing tests for Player reading
+
+commit 097eed782f268ad6a953aeb6cb121ed0e9aa5bb1
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Mon Mar 21 15:50:52 2016 -0600
+
+    Added failing tests for player attributes
+
+commit 9fb184cdcaffec91f7ba3257158b96eb6d397098
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Sun Mar 20 17:28:44 2016 -0600
+
+    Streamlined exception handling in config methods
+
+commit cffe95f12f621ae2f4b3a593480c0e79f771d8cb
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Sun Mar 20 16:35:27 2016 -0600
+
+    Fixed glaring issue in algorithm; all tests now functional.
+
+commit 27cfed8ab819db44a01742b23d113f8c05e8d639
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Sun Mar 20 15:22:45 2016 -0600
+
+    Working on making all tests functional.
+
+commit cd08d879aa7d3eb38c562008b375c765a67d7f4e
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Sun Mar 20 15:15:33 2016 -0600
+
+    Testing various constructor changes
+
+commit 07bd9d32a00c5e382f8e5135763812a8509843cd
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Sun Mar 20 14:32:03 2016 -0600
+
+    Added skeletons for new required classes
+
+commit 40a415acd0cb1120ada43c8db9935cff3128588d
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Thu Mar 10 12:17:17 2016 -0700
+
+    Refactoring, fixing variable names, code cleanup
+
+commit 85f06e79109574000b32338441044431a3189daf
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Thu Mar 10 11:57:42 2016 -0700
+
+    Refactorization: itialize no longer hardcoded
+
+commit 523c593c9fd1f73a6748f9013ad5581ebb7263a4
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Tue Mar 8 12:01:54 2016 -0700
+
+    Added a supplementary test
+
+commit 3f199138d0033aa7d1694cdad5441f8b8635830c
+Merge: c3088bc 1d9803d
+Author: Shawn Andrew <sandrew@mines.edu>
+Date:   Tue Mar 8 11:32:36 2016 -0700
+
+    Merge branch 'master' of https://github.com/ratchet1179/Clue
+
+commit c3088bc73e937857835699e76a10e973e0316e12
+Author: Shawn Andrew <sandrew@mines.edu>
+Date:   Tue Mar 8 11:32:31 2016 -0700
+
+    merge handling
+
+commit 47d694758b745397223f26acc3f21f796d31ed0f
+Author: Shawn Andrew <sandrew@mines.edu>
+Date:   Tue Mar 8 11:27:31 2016 -0700
+
+    Changed file names and got rid of .project in gitignore
+
+commit 1d9803d9bd29614cff55f7538fa82f391f03d091
+Author: Adrien Perinet <aperinet@mines.edu>
+Date:   Tue Mar 8 11:24:09 2016 -0700
+
+    Initial commit
+
+commit 28bc451cb0e286e1ba088b9b06e0bf0929060a41
+Author: Shawn Andrew <sandrew@mines.edu>
+Date:   Sun Mar 6 17:26:41 2016 -0700
+
+    added new room and tests
+
+commit 485cb5ade74e68501e768338e866c0f50abe258d
+Author: Shawn Andrew <sandrew@mines.edu>
+Date:   Tue Mar 1 21:34:31 2016 -0700
+
+    Part III finished adjaceny and target tests passed
+
+commit ec7fb368edd87ca7a5638f7d0ec11c0c20457f8d
+Author: Shawn Andrew <sandrew@mines.edu>
+Date:   Tue Mar 1 21:04:10 2016 -0700
+
+    All adjacency tests pass for student and teacher for part III
+
+commit b7420b0946883673d5d05e1a2cb496aca7376392
+Author: Shawn Andrew <sandrew@mines.edu>
+Date:   Tue Mar 1 19:53:15 2016 -0700
+
+    Part II tests fully pass for both teacher and student runs
+
+commit db46f58896db7f649221a65cbb0898f993266a1c
+Author: Shawn Andrew <sandrew@mines.edu>
+Date:   Mon Feb 29 22:03:41 2016 -0700
+
+    Part II tests implemented not all Part I tests passed
+
+commit 32d80aa7cdf1c0ff9a0c17fddd280ecbc34cc8d2
+Merge: 85d8e31 02eabe0
+Author: Shawn Andrew <sandrew@mines.edu>
+Date:   Mon Feb 29 18:24:01 2016 -0700
+
+    Merge branch 'master' of https://github.com/ratchet1179/Clue
+
+commit 85d8e318fcbc125ac06e2e7b4e9e657fb6b72f42
+Author: Shawn Andrew <sandrew@mines.edu>
+Date:   Mon Feb 29 18:21:36 2016 -0700
+
+    Finished part 1 file config tests fail
+
+commit 02eabe02acd552778c58dc4b830ee6dea3af5d7e
+Author: ratchet1179 <sandrew@mines.edu>
+Date:   Mon Feb 29 18:20:00 2016 -0700
+
+    Initial commit
+
+commit 9fe10a4cb514329a96d317e2ffae20104e517941
+Author: Shawn Andrew <sandrew@mines.edu>
+Date:   Thu Feb 25 18:32:58 2016 -0700
+
+    Finished Part 1 File fail tests are created
+
+commit 0fba31263d92f07c9354b6c8ac37a986ebb051c0
+Author: Shawn Andrew <sandrew@mines.edu>
+Date:   Thu Feb 25 17:42:59 2016 -0700
+
+    Initial Commit
