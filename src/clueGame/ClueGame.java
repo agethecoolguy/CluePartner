@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -13,6 +14,7 @@ import javax.swing.JMenuItem;
 public class ClueGame extends JFrame {
 	Board board;
 	GameControlGUI gameControl;
+	PlayerCardDisplay playerCardDisplay;
 	
 	public ClueGame() throws HeadlessException {
 		super();
@@ -29,10 +31,21 @@ public class ClueGame extends JFrame {
         board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "CluePlayersStudent.txt", "ClueWeaponsStudent.txt");
         board.initialize();
         board.dealCards();
-        int pixelWiseWidth = (int) board.getDimensions().getX();
-        int pixelWiseHeight = (int) board.getDimensions().getY();
-        setSize(pixelWiseWidth, pixelWiseHeight);
+        //int pixelWiseWidth = (int) board.getDimensions().getX();
+        //int pixelWiseHeight = (int) board.getDimensions().getY();
+        setSize(900, 900);
 		add(board, BorderLayout.CENTER);
+		
+		gameControl = new GameControlGUI();
+		add(gameControl, BorderLayout.SOUTH);
+		
+		ArrayList<Card> exampleCards = new ArrayList<Card>();
+		exampleCards.add(new Card("Bob the Uncontrolable Psycho", CardType.PERSON));
+		exampleCards.add(new Card("Joe", CardType.PERSON));
+		exampleCards.add(new Card("Chainsaw", CardType.WEAPON));
+		exampleCards.add(new Card("Texas", CardType.ROOM));
+		playerCardDisplay = new PlayerCardDisplay(board.getHumanPlayerCards());
+		add(playerCardDisplay, BorderLayout.EAST);
 	}
 	
 	private JMenu createFileMenu(){

@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
@@ -22,7 +23,7 @@ public class GameControlGUI extends JPanel {
         setLayout(new GridLayout(2, 1));
         JPanel newPanel = new JPanel();
         JPanel topPanel = new JPanel();
-        topPanel.setLayout(new GridLayout(1, 3));
+        topPanel.setLayout(new FlowLayout());
         newPanel = createCurrentPlayerPanel();
         topPanel.add(newPanel);
         newPanel = createNextPlayerButton();
@@ -60,7 +61,7 @@ public class GameControlGUI extends JPanel {
 
     private JPanel createCurrentPlayerPanel() {
         JPanel currentPlayerPanel = new JPanel();
-        currentPlayerPanel.setLayout(new GridLayout(2, 1));
+        currentPlayerPanel.setLayout(new GridLayout(1, 2));
 
         JLabel currentPlayerLabel = new JLabel("Current player:");
         currentPlayerLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -68,9 +69,11 @@ public class GameControlGUI extends JPanel {
 
         currentPlayer = new JTextField(20);
         currentPlayer.setText("PlayerName"); // temporary, should grab from board
-        currentPlayer.setHorizontalAlignment(JLabel.CENTER);
+        //currentPlayer.setHorizontalAlignment(JLabel.CENTER);
         currentPlayer.setEditable(false);
         currentPlayerPanel.add(currentPlayer);
+        
+        currentPlayerPanel.setBorder(new TitledBorder(new EtchedBorder(), "Whose turn?"));
 
         return currentPlayerPanel;
     }

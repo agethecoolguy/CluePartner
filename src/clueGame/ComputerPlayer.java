@@ -10,7 +10,7 @@ public class ComputerPlayer extends Player {
     private Character roomLastVisited = 'Z';
 
     public ComputerPlayer(String playerName, Color color, int row, int column) {
-        super(playerName, color, row, column);
+        super(playerName, color, row, column, false);
         super.isHuman = false;
     }
 

@@ -23,10 +23,11 @@ public class Player extends JPanel {
 	private ArrayList<Card> seenCards = new ArrayList<Card>();
 	protected boolean isHuman;
 	
-	public Player(String playerName, Color color, int row, int column) {
+	public Player(String playerName, Color color, int row, int column, boolean isHuman) {
 		this.playerName = playerName;
 		this.row = row;
 		this.column = column;
+		this.isHuman = isHuman;
 		xPixelCoordinate = column * BoardCell.SIDE_LENGTH;
 		yPixelCoordinate = row * BoardCell.SIDE_LENGTH;
 		this.color = color;
@@ -114,5 +115,9 @@ public class Player extends JPanel {
 
 	public boolean isHuman() {
 		return isHuman;
+	}
+	
+	public void setHuman(boolean isHuman) {
+		this.isHuman = isHuman;
 	}
 }

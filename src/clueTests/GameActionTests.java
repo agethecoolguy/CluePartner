@@ -35,7 +35,7 @@ public class GameActionTests {
     
     @BeforeClass
     public static void initialSetUp() {
-    	tester = new Player("Unoriginal MechE", Color.red, 0, 7);
+    	tester = new Player("Unoriginal MechE", Color.red, 0, 7, false);
     	mechE = new Card("Unoriginal MechE", CardType.PERSON);
     	quad = new Card("QuadCopter", CardType.WEAPON);
     	bathroom = new Card("Bathroom", CardType.ROOM);

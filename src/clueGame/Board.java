@@ -215,9 +215,12 @@ public class Board extends JPanel {
         	if (playerColumn >= numColumns || playerColumn < 0) {
         		throw new BadConfigFormatException("Invalid player column in " + playersFile);
         	}
-        	
-        	players.add(new Player(playerName, playerColor, playerRow, playerColumn));
+        	        	
+        	players.add(new Player(playerName, playerColor, playerRow, playerColumn, false));
         }
+        
+        Random rng = new Random();
+        players.get(rng.nextInt(6)).setHuman(true);
         
         if (in.hasNextLine()) {
         	throw new BadConfigFormatException("Too many players in " + playersFile);
@@ -488,7 +491,16 @@ public class Board extends JPanel {
 	public Set<String> getCardRooms() {
         return roomNames;
     }
-
+	
+	public ArrayList<Card> getHumanPlayerCards() {
+		for (Player p : players) {
+			if (p.isHuman()) {
+				return p.getMyCards();
+			}
+		}
+		throw new RuntimeException("No human player found");
+	}
+	
     public int getNumRows() {
 		return numRows;
 	}
