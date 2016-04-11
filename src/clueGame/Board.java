@@ -500,6 +500,14 @@ public class Board extends JPanel {
 		}
 		throw new RuntimeException("No human player found");
 	}
+	public String getHumanPlayerName(){
+		for (Player p : players) {
+			if (p.isHuman()) {
+				return p.getPlayerName();
+			}
+		}
+		throw new RuntimeException("No human player found");
+	}
 	
     public int getNumRows() {
 		return numRows;
