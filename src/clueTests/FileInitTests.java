@@ -25,7 +25,7 @@ public class FileInitTests {
 	@BeforeClass
 	public static void setUp() {
 		board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt");
-		board.initialize();
+		board.initialize(6);
 	}
 
 	@Test

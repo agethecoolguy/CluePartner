@@ -55,4 +55,8 @@ public class ComputerPlayer extends Player {
     public void setRoomLastVisited(Character room) {
         roomLastVisited = room;
     }
+    
+	public void makeMove() {
+		
+	}
 }

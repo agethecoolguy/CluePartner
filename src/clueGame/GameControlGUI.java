@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,11 +18,12 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class GameControlGUI extends JPanel {
-    private JTextField currentPlayer;
-    private JTextField die;
-    private JTextField guess;
-    private JTextField result;
-    ClueGame clueGame;
+    private JTextField currentPlayerTextField;
+    private JTextField dieTextField;
+    private JTextField guessTextField;
+    private JTextField resultTextField;
+    private ClueGame clueGame;
+    private int dieValue;
 
     public GameControlGUI(ClueGame clueGame) {
     	this.clueGame = clueGame;
@@ -65,7 +67,18 @@ public class GameControlGUI extends JPanel {
 				JOptionPane.showMessageDialog(clueGame, errorMessage, "Error", JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
-			Player currentPlayer = clueGame.getNextPlayer();
+			Player currentPlayer = clueGame.nextPlayer();
+			currentPlayerTextField.setText(currentPlayer.getPlayerName());
+			if (currentPlayer.isHuman) {
+				HumanPlayer human = (HumanPlayer) currentPlayer;
+				clueGame.getBoard().calcTargets(human.getRow(), human.getColumn(), rollDie());
+				human.makeMove();
+			}
+			else {
+				ComputerPlayer cpu = (ComputerPlayer) currentPlayer;
+				clueGame.getBoard().calcTargets(cpu.getRow(), cpu.getColumn(), rollDie());
+				cpu.makeMove();
+			}
 		}
 	}
 
@@ -84,11 +97,11 @@ public class GameControlGUI extends JPanel {
         currentPlayerLabel.setHorizontalAlignment(JLabel.CENTER);
         currentPlayerPanel.add(currentPlayerLabel);
 
-        currentPlayer = new JTextField(20);
-        currentPlayer.setText("PlayerName"); // temporary, should grab from board
+        currentPlayerTextField = new JTextField(20);
+        currentPlayerTextField.setText(clueGame.getCurrentPlayer().getPlayerName()); // temporary, should grab from board
         //currentPlayer.setHorizontalAlignment(JLabel.CENTER);
-        currentPlayer.setEditable(false);
-        currentPlayerPanel.add(currentPlayer);
+        currentPlayerTextField.setEditable(false);
+        currentPlayerPanel.add(currentPlayerTextField);
         
         currentPlayerPanel.setBorder(new TitledBorder(new EtchedBorder(), "Whose turn?"));
 
@@ -102,10 +115,9 @@ public class GameControlGUI extends JPanel {
         JLabel dieLabel = new JLabel("Roll:");
         diePanel.add(dieLabel);
 
-        die = new JTextField(5);
-        die.setText("Roll"); // temporary, should grab from board
-        die.setEditable(false);
-        diePanel.add(die);
+        dieTextField = new JTextField(5);
+        dieTextField.setEditable(false);
+        diePanel.add(dieTextField);
 
         diePanel.setBorder(new TitledBorder(new EtchedBorder(), "Die"));
 
@@ -119,8 +131,8 @@ public class GameControlGUI extends JPanel {
         JLabel guessLabel = new JLabel("Guess: ");
         guessPanel.add(guessLabel);
 
-        guess = new JTextField(25);
-        guessPanel.add(guess);
+        guessTextField = new JTextField(25);
+        guessPanel.add(guessTextField);
 
         guessPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
 
@@ -134,16 +146,23 @@ public class GameControlGUI extends JPanel {
         JLabel resultLabel = new JLabel("Response: ");
         resultPanel.add(resultLabel);
 
-        result = new JTextField(10);
-        result.setText("Response"); // temporary, should grab from board
-        result.setEditable(false);
-        resultPanel.add(result);
+        resultTextField = new JTextField(10);
+        resultTextField.setEditable(false);
+        resultPanel.add(resultTextField);
 
         resultPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
 
         return resultPanel;
     }
-
+    
+    public int rollDie(){
+    	Random rng = new Random();
+    	dieValue = rng.nextInt(6) + 1;
+    	dieTextField.setText(String.valueOf(dieValue));
+    	
+    	return dieValue; // + 1 ensures that zero is never rolled
+    }
+    
     /*public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

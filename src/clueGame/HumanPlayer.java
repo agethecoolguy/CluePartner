@@ -8,5 +8,16 @@ public class HumanPlayer extends Player {
 		super(playerName, color, row, column, true);
 		super.isHuman = true;
 	}
+	
+	/*
+	public HumanPlayer(Player player) {
+		super(player.getPlayerName(), player.getColor(), player.getRow(), player.getColumn(), true);
+		super.isHuman = true;
+	}
+	*/
+	
+	public void makeMove() {
+		
+	}
 
 }

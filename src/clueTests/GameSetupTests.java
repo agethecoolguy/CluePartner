@@ -23,7 +23,7 @@ public class GameSetupTests {
     @Before
     public void setUp() {
         board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "CluePlayersStudent.txt", "ClueWeaponsStudent.txt");
-        board.initialize();
+        board.initialize(6);
         //deal cards is not included in this section because certain tests are dependent on its absence
     }
 

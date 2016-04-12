@@ -13,14 +13,19 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame {
-	Board board;
-	GameControlGUI gameControl;
-	PlayerCardDisplay playerCardDisplay;
-	DetectiveNotesDialog notesDialog;
+	private Board board;
+	private GameControlGUI gameControl;
+	private PlayerCardDisplay playerCardDisplay;
+	private DetectiveNotesDialog notesDialog;
 	private boolean humanPlayerTurnFinished;
+	private int indexOfCurrentPlayer;
+	private int numPlayers;
 	
 	public ClueGame() throws HeadlessException {
 		super();
+		numPlayers = 6; //TEMPORARY--------------------------------------------------<<<<
+		indexOfCurrentPlayer = 0;
+		humanPlayerTurnFinished = false;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Clue");
         
@@ -32,12 +37,13 @@ public class ClueGame extends JFrame {
         menuBar.add(createFileMenu());
         
         board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "CluePlayersStudent.txt", "ClueWeaponsStudent.txt");
-        board.initialize();
+        board.initialize(numPlayers);
         board.dealCards();
-        //int pixelWiseWidth = (int) board.getDimensions().getX();
-        //int pixelWiseHeight = (int) board.getDimensions().getY();
         setSize(910, 900);
 		add(board, BorderLayout.CENTER);
+		if (!board.getPlayers().get(indexOfCurrentPlayer).isHuman) {
+			humanPlayerTurnFinished = true;
+		}
 		
 		notesDialog = new DetectiveNotesDialog(board.getPlayers(), board.getCardRooms(), board.getWeapons());
 		
@@ -96,10 +102,24 @@ public class ClueGame extends JFrame {
 		return humanPlayerTurnFinished;
 	}
 	
-	public Player getNextPlayer() {
-		// FINISH AT SOME TIME
+	public void setHumanPlayerTurnFinished(boolean humanPlayerTurnFinished) {
+		this.humanPlayerTurnFinished = humanPlayerTurnFinished;
+	}
+
+	public Player nextPlayer() { // progresses to next player and returns the new current player
+		indexOfCurrentPlayer = (indexOfCurrentPlayer + 1) % numPlayers; // modulo operator provides "circular behavior"
+		if (board.getPlayers().get(indexOfCurrentPlayer).isHuman()) {
+			humanPlayerTurnFinished = false;
+		}
 		
-		
-		return null;
+		return board.getPlayers().get(indexOfCurrentPlayer);
+	}
+	
+	public Player getCurrentPlayer() {
+		return board.getPlayers().get(indexOfCurrentPlayer);
+	}
+	
+	public Board getBoard() {
+		return board;
 	}
 }

@@ -36,7 +36,7 @@ public class FileInitTestsTeacher {
 		// the default filenames must be attributes of the Board class. 
 		board = new Board();
 		// Initialize will load BOTH config files 
-		board.initialize();
+		board.initialize(6);
 	}
 	@Test
 	public void testRooms() {

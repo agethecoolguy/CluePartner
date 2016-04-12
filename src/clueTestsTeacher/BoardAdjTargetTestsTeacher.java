@@ -21,7 +21,7 @@ public class BoardAdjTargetTestsTeacher {
 	@BeforeClass
 	public static void setUp() {
 		board = new Board("Clue_LayoutTeacher.csv", "Clue_LegendTeacher.txt");
-		board.initialize();
+		board.initialize(6);
 	}
 
 	// Ensure that player does not move around within room

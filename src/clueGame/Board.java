@@ -3,6 +3,8 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.lang.reflect.Field;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -20,7 +22,7 @@ import java.util.Set;
 import javax.swing.JPanel;
 
 public class Board extends JPanel {
-	public final int NUM_PLAYERS = 6;
+	private int numPlayers;
 	public final int NUM_WEAPONS = 6;
 	private int numColumns, numRows;
 	private BoardCell[][] board;
@@ -67,7 +69,8 @@ public class Board extends JPanel {
 		deckOfCards = new HashSet<Card>();
 	}
 
-	public void initialize() {
+	public void initialize(int numPlayers) {
+		this.numPlayers = numPlayers;
 		try {
 			loadConfigFiles();
 		} catch (BadConfigFormatException e) {
@@ -175,6 +178,8 @@ public class Board extends JPanel {
 	
 	@SuppressWarnings("resource")
     public void loadPlayersConfig() throws BadConfigFormatException {
+		Random rng = new Random();
+        int indexOfHuman = rng.nextInt(numPlayers);
 		// SET UP LEGEND
         FileReader reader;
         try {
@@ -184,7 +189,7 @@ public class Board extends JPanel {
         }
 
 		Scanner in = new Scanner(reader);
-        for (int i = 0; i < NUM_PLAYERS; i++) {
+        for (int i = 0; i < numPlayers; i++) {
         	if (!in.hasNextLine()) {
         		throw new BadConfigFormatException("Not enough players in " + playersFile);
         	}
@@ -215,14 +220,15 @@ public class Board extends JPanel {
         	if (playerColumn >= numColumns || playerColumn < 0) {
         		throw new BadConfigFormatException("Invalid player column in " + playersFile);
         	}
-        	        	
-        	players.add(new Player(playerName, playerColor, playerRow, playerColumn, false));
+        	
+			if (players.size() == indexOfHuman) {
+				players.add(new HumanPlayer(playerName, playerColor, playerRow, playerColumn));
+			} else {
+				players.add(new ComputerPlayer(playerName, playerColor, playerRow, playerColumn));
+			}
         }
         
-        Random rng = new Random();
-        players.get(rng.nextInt(6)).setHuman(true);
-        
-        if (in.hasNextLine()) {
+        if (in.hasNextLine() && numPlayers == 6) {
         	throw new BadConfigFormatException("Too many players in " + playersFile);
         }
         in.close();
@@ -281,8 +287,8 @@ public class Board extends JPanel {
 		}
 		Card result = null;
 		
-		for (int i = 0; i < NUM_PLAYERS - 1; i++) {
-			Player currentPlayer = players.get((indexOfAccuser + i + 1) % NUM_PLAYERS);
+		for (int i = 0; i < numPlayers - 1; i++) {
+			Player currentPlayer = players.get((indexOfAccuser + i + 1) % numPlayers);
 			// If indexOfaccuser + i + 1 exceeds NUM_PLAYERS, the modulo operator causes a "wraparound" effect.
 			// This ensures that each player is queried.
 			result = currentPlayer.disproveSuggestion(suggestion);
@@ -562,4 +568,22 @@ public class Board extends JPanel {
     		}
     	}
     }
+    
+    public class BoardCellFocusListener implements FocusListener {
+    	BoardCell focusableBoardCell;
+    	
+		public void focusGained(FocusEvent e) {
+			if (focusableBoardCell.isWalkway()) {
+				focusableBoardCell.color = Color.CYAN;
+				repaint();
+			}
+	    }
+
+	    public void focusLost(FocusEvent e) {
+			if (focusableBoardCell.isWalkway()) {
+				focusableBoardCell.color = Color.YELLOW;
+				repaint();
+			}
+	    }
+	}
 }

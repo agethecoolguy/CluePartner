@@ -19,7 +19,7 @@ public class BoardAdjTargetTests {
 	@BeforeClass
 	public static void setUp() {
 		board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt");
-		board.initialize();
+		board.initialize(6);
 	}
 
 	//Adjacency Tests

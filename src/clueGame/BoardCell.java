@@ -4,8 +4,13 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.geom.Line2D;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class BoardCell extends JPanel {
@@ -14,16 +19,20 @@ public class BoardCell extends JPanel {
 	private int column;
 	private int xPixelCoordinate;
 	private int yPixelCoordinate;
+	
 	private Boolean isNameCell;
 	public DoorDirection doorDirection;
 	private char roomLetter;
 	private String roomName;
 	public static final int STROKE_SIZE = 3;
+	public Color color;
 
 	public BoardCell(DoorDirection doorDirection, char roomLetter) {
 		this.doorDirection = doorDirection;
 		this.roomLetter = roomLetter;
 		setIsNameCell(false);
+		setFocusable(true);
+		color = Color.YELLOW;
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -32,7 +41,7 @@ public class BoardCell extends JPanel {
 		// This may cause some visual bugs where elements appear to disappear if they are drawn in the wrong order.
 		
 		if (roomLetter == 'W') {
-			g.setColor(Color.YELLOW);
+			g.setColor(color);
 			g.fillRect(xPixelCoordinate, yPixelCoordinate, SIDE_LENGTH, SIDE_LENGTH);
 			g.setColor(Color.BLACK);
 			g.drawRect(xPixelCoordinate, yPixelCoordinate, SIDE_LENGTH, SIDE_LENGTH);
@@ -72,7 +81,7 @@ public class BoardCell extends JPanel {
 		}
 		
 	}
-
+	
 	public boolean isDoorway() {
 		return (doorDirection != DoorDirection.NONE && doorDirection != null);
 	}
@@ -135,5 +144,9 @@ public class BoardCell extends JPanel {
 
 	public void setRoomName(String roomName) {
 		this.roomName = roomName;
+	}
+	
+	public void setColor(Color color) {
+		this.color = color;
 	}
 }

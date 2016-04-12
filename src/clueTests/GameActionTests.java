@@ -54,7 +54,7 @@ public class GameActionTests {
     @Before
     public void setUp() {
         board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "CluePlayersStudent.txt", "ClueWeaponsStudent.txt");
-        board.initialize();
+        board.initialize(6);
         board.dealCards();
     }
     
