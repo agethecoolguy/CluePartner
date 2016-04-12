@@ -16,6 +16,8 @@ public class ClueGame extends JFrame {
 	Board board;
 	GameControlGUI gameControl;
 	PlayerCardDisplay playerCardDisplay;
+	DetectiveNotesDialog notesDialog;
+	private boolean humanPlayerTurnFinished;
 	
 	public ClueGame() throws HeadlessException {
 		super();
@@ -34,10 +36,12 @@ public class ClueGame extends JFrame {
         board.dealCards();
         //int pixelWiseWidth = (int) board.getDimensions().getX();
         //int pixelWiseHeight = (int) board.getDimensions().getY();
-        setSize(900, 900);
+        setSize(910, 900);
 		add(board, BorderLayout.CENTER);
 		
-		gameControl = new GameControlGUI();
+		notesDialog = new DetectiveNotesDialog(board.getPlayers(), board.getCardRooms(), board.getWeapons());
+		
+		gameControl = new GameControlGUI(this);
 		add(gameControl, BorderLayout.SOUTH);
 		
 		ArrayList<Card> exampleCards = new ArrayList<Card>();
@@ -64,7 +68,6 @@ public class ClueGame extends JFrame {
 	    class MenuItemListener implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DetectiveNotesDialog notesDialog = new DetectiveNotesDialog(board.getPlayers(), board.getCardRooms(), board.getWeapons());
                 notesDialog.setVisible(true);
             }
 	    }
@@ -88,4 +91,15 @@ public class ClueGame extends JFrame {
 		ClueGame game = new ClueGame();
         game.setVisible(true);
     }
+
+	public boolean isHumanPlayerTurnFinished() {
+		return humanPlayerTurnFinished;
+	}
+	
+	public Player getNextPlayer() {
+		// FINISH AT SOME TIME
+		
+		
+		return null;
+	}
 }

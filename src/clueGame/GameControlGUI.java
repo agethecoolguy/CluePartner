@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
@@ -18,8 +21,10 @@ public class GameControlGUI extends JPanel {
     private JTextField die;
     private JTextField guess;
     private JTextField result;
+    ClueGame clueGame;
 
-    public GameControlGUI() {
+    public GameControlGUI(ClueGame clueGame) {
+    	this.clueGame = clueGame;
         setLayout(new GridLayout(2, 1));
         JPanel newPanel = new JPanel();
         JPanel topPanel = new JPanel();
@@ -47,10 +52,22 @@ public class GameControlGUI extends JPanel {
 
     private JPanel createNextPlayerButton() {
         JButton nextPlayerButton = new JButton("Next player");
+        nextPlayerButton.addActionListener(new NextPlayerListener());
         JPanel nextPlayerPanel = new JPanel();
         nextPlayerPanel.add(nextPlayerButton);
         return nextPlayerPanel;
     }
+    
+    public class NextPlayerListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (!clueGame.isHumanPlayerTurnFinished()) {
+				String errorMessage = "You need to finish your turn!";
+				JOptionPane.showMessageDialog(clueGame, errorMessage, "Error", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			Player currentPlayer = clueGame.getNextPlayer();
+		}
+	}
 
     private JPanel createAccusationButton() {
         JButton nextPlayerButton = new JButton("Make accusation");
@@ -127,7 +144,7 @@ public class GameControlGUI extends JPanel {
         return resultPanel;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Clue");
@@ -135,5 +152,5 @@ public class GameControlGUI extends JPanel {
         GameControlGUI GUI = new GameControlGUI();
         frame.add(GUI, BorderLayout.CENTER);
         frame.setVisible(true);
-    }
+    }*/
 }
