@@ -17,7 +17,7 @@ public class ClueGame extends JFrame {
 	private GameControlGUI gameControl;
 	private PlayerCardDisplay playerCardDisplay;
 	private DetectiveNotesDialog notesDialog;
-	private static boolean humanPlayerTurnFinished;
+	//private static boolean humanPlayerTurnFinished;
 	private int indexOfCurrentPlayer;
 	private int numPlayers;
 	
@@ -25,7 +25,7 @@ public class ClueGame extends JFrame {
 		super();
 		numPlayers = 6; //TEMPORARY--------------------------------------------------<<<<
 		indexOfCurrentPlayer = -1;
-		humanPlayerTurnFinished = false;
+		//HumanPlayer.isHumanTurn = true;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Clue");
         
@@ -41,7 +41,7 @@ public class ClueGame extends JFrame {
         board.dealCards();
         setSize(910, 900);
 		add(board, BorderLayout.CENTER);
-		humanPlayerTurnFinished = true;
+		HumanPlayer.isHumanTurn = false;
 		
 		notesDialog = new DetectiveNotesDialog(board.getPlayers(), board.getCardRooms(), board.getWeapons());
 		
@@ -91,23 +91,10 @@ public class ClueGame extends JFrame {
 	    return exitItem;
 	}
 
-	public static void main(String[] args) {
-		ClueGame game = new ClueGame();
-        game.setVisible(true);
-    }
-
-	public boolean isHumanPlayerTurnFinished() {
-		return humanPlayerTurnFinished;
-	}
-	
-	public void setHumanPlayerTurnFinished(boolean humanPlayerTurnFinished) {
-		this.humanPlayerTurnFinished = humanPlayerTurnFinished;
-	}
-
 	public Player nextPlayer() { // progresses to next player and returns the new current player
 		indexOfCurrentPlayer = (indexOfCurrentPlayer + 1) % numPlayers; // modulo operator provides "circular behavior"
 		if (board.getPlayers().get(indexOfCurrentPlayer).isHuman()) {
-			humanPlayerTurnFinished = false;
+			HumanPlayer.isHumanTurn = true;
 		}
 		
 		return board.getPlayers().get(indexOfCurrentPlayer);
@@ -120,4 +107,9 @@ public class ClueGame extends JFrame {
 	public Board getBoard() {
 		return board;
 	}
+	
+	public static void main(String[] args) {
+		ClueGame game = new ClueGame();
+        game.setVisible(true);
+    }
 }

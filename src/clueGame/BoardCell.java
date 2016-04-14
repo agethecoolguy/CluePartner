@@ -27,14 +27,16 @@ public class BoardCell extends JPanel {
 	private char roomLetter;
 	private String roomName;
 	public static final int STROKE_SIZE = 3;
-	public Color color;
+	public Color walkwayColor;
+	public Color roomColor;
 
 	public BoardCell(DoorDirection doorDirection, char roomLetter) {
 		this.doorDirection = doorDirection;
 		this.roomLetter = roomLetter;
 		setIsNameCell(false);
 		setFocusable(true);
-		color = Color.YELLOW;
+		walkwayColor = Color.YELLOW;
+		roomColor = new Color(238, 238, 238);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -43,12 +45,14 @@ public class BoardCell extends JPanel {
 		// This may cause some visual bugs where elements appear to disappear if they are drawn in the wrong order.
 		
 		if (roomLetter == 'W') {
-			g.setColor(color);
+			g.setColor(walkwayColor);
 			g.fillRect(xPixelCoordinate, yPixelCoordinate, SIDE_LENGTH, SIDE_LENGTH);
 			g.setColor(Color.BLACK);
 			g.drawRect(xPixelCoordinate, yPixelCoordinate, SIDE_LENGTH, SIDE_LENGTH);
 		}
 		else if (isDoorway()) {
+			g.setColor(roomColor);
+			g.fillRect(xPixelCoordinate, yPixelCoordinate, SIDE_LENGTH, SIDE_LENGTH);
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setColor(Color.BLUE);
 			g2.setStroke(new BasicStroke(STROKE_SIZE));
@@ -75,6 +79,10 @@ public class BoardCell extends JPanel {
 				break;
 			}
 			g2.setStroke(new BasicStroke(1));
+		}
+		else {
+			g.setColor(roomColor);
+			g.fillRect(xPixelCoordinate, yPixelCoordinate, SIDE_LENGTH, SIDE_LENGTH);
 		}
 		
 		if (isNameCell) {
@@ -148,15 +156,19 @@ public class BoardCell extends JPanel {
 		this.roomName = roomName;
 	}
 	
-	public void setColor(Color color) {
-		this.color = color;
+	public void setWalkwayColor(Color color) {
+		this.walkwayColor = color;
 	}
 
-	public boolean containsClick(int mouseX, int mouseY) {
+	public boolean containsMouse(int mouseX, int mouseY) {
 		Rectangle rectangle = new Rectangle(xPixelCoordinate, yPixelCoordinate, SIDE_LENGTH, SIDE_LENGTH);
 		if (rectangle.contains(new Point(mouseX, mouseY))) {
 			return true;
 		}
 		return false;
+	}
+	
+	public void setRoomColor(Color roomColor) {
+		this.roomColor = roomColor;
 	}
 }

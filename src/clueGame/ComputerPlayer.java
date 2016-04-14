@@ -7,7 +7,8 @@ import java.util.Set;
 
 public class ComputerPlayer extends Player {
 
-    private Character roomLastVisited = 'Z';
+    private char roomLastVisited = 'Z';
+    private char secondToLastRoomVisited = 'Z';
 
     public ComputerPlayer(String playerName, Color color, int row, int column) {
         super(playerName, color, row, column, false);
@@ -21,7 +22,7 @@ public class ComputerPlayer extends Player {
         BoardCell cellToReturn = null;
         for (BoardCell b : targets) { // this loop determines each target that consists of an unvisited doorway
             arrayTargets.add(b);
-            if (b.isDoorway() && (b.getRoomLetter() != roomLastVisited)) {
+            if (b.isDoorway() && ((b.getRoomLetter() != roomLastVisited) && (b.getRoomLetter() != secondToLastRoomVisited))) {
                 doorwayTargets.add(b);
             }
         }
@@ -34,7 +35,8 @@ public class ComputerPlayer extends Player {
         }
         
         if (cellToReturn.isDoorway()){ // this ensures that walkways are never considered as "rooms"
-            roomLastVisited = cellToReturn.getRoomLetter();
+            secondToLastRoomVisited = roomLastVisited;
+        	roomLastVisited = cellToReturn.getRoomLetter();
         }
         return cellToReturn;
     }

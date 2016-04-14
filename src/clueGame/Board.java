@@ -21,11 +21,14 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Board extends JPanel implements MouseListener {
 	private int numPlayers;
 	public final int NUM_WEAPONS = 6;
+	public static int NUM_ROOMS;
 	private int numColumns, numRows;
 	private BoardCell[][] board;
 	private static Map<Character, String> rooms; //this maps room characters to room names
@@ -41,7 +44,6 @@ public class Board extends JPanel implements MouseListener {
 	private ArrayList<String> weaponNames;
     private Set<Card> deckOfCards;
 	private Solution solution;
-	private boolean isHumanTurn;
 	private int indexOfHuman;
 	
 	public Board() {
@@ -50,13 +52,13 @@ public class Board extends JPanel implements MouseListener {
 		legendFile = "Clue_LegendTeacher.txt";
 		playersFile = "CluePlayersTeacher.txt";
 		weaponsFile = "ClueWeaponsTeacher.txt"; 
+		addMouseListener(this);
 	}
 	
 	public Board(String boardFile, String legendFile) {
 		this(); //call regular constructor
 		this.boardFile = boardFile;
 		this.legendFile = legendFile;
-		addMouseListener(this);
 	}
 	
 	public Board(String boardFile, String legendFile, String playersFile, String weaponsFile) {
@@ -127,7 +129,8 @@ public class Board extends JPanel implements MouseListener {
 			throw new BadConfigFormatException(legendFile + " not found");
 		} catch (IOException e) {
 			throw new BadConfigFormatException(e.getMessage());
-		}	
+		}
+		NUM_ROOMS = rooms.size() - 1;
 	}
 
 	@SuppressWarnings("resource")
@@ -184,8 +187,10 @@ public class Board extends JPanel implements MouseListener {
 	
 	@SuppressWarnings("resource")
     public void loadPlayersConfig() throws BadConfigFormatException {
-		Random rng = new Random();
-        indexOfHuman = rng.nextInt(numPlayers);
+		//Random rng = new Random();
+        //indexOfHuman = rng.nextInt(numPlayers);
+		indexOfHuman = 0;
+		
 		// SET UP LEGEND
         FileReader reader;
         try {
@@ -234,7 +239,7 @@ public class Board extends JPanel implements MouseListener {
 			}
         }
         
-        if (in.hasNextLine() && numPlayers == 6) {
+        if (in.hasNextLine()) { //&& numPlayers == 6) {
         	throw new BadConfigFormatException("Too many players in " + playersFile);
         }
         in.close();
@@ -498,14 +503,16 @@ public class Board extends JPanel implements MouseListener {
 	
 	public void highlightTargets() {
 		for (BoardCell targetCell : targetCells) {
-			targetCell.setColor(Color.CYAN);
+			targetCell.setWalkwayColor(Color.CYAN);
+			targetCell.setRoomColor(new Color(0, 139, 139));
 		}
 		repaint();
 	}
 	
 	public void unhighlightTargets() {
 		for (BoardCell targetCell : targetCells) {
-			targetCell.setColor(Color.YELLOW);
+			targetCell.setWalkwayColor(Color.YELLOW);
+			targetCell.setRoomColor(new Color(238, 238, 238));
 		}
 		repaint();
 	}
@@ -594,46 +601,37 @@ public class Board extends JPanel implements MouseListener {
     	
 		public void focusGained(FocusEvent e) {
 			if (focusableBoardCell.isWalkway()) {
-				focusableBoardCell.color = Color.CYAN;
+				focusableBoardCell.walkwayColor = Color.CYAN;
 				repaint();
 			}
 	    }
 
 	    public void focusLost(FocusEvent e) {
 			if (focusableBoardCell.isWalkway()) {
-				focusableBoardCell.color = Color.YELLOW;
+				focusableBoardCell.walkwayColor = Color.YELLOW;
 				repaint();
 			}
 	    }
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e) {}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (!isHumanTurn) {
+		if (!HumanPlayer.isHumanTurn) {
 			return;
 		}
 		BoardCell b = null;
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
-				if (board[i][j].containsClick(e.getX(), e.getY())) {
+				if (board[i][j].containsMouse(e.getX(), e.getY())) {
 					b = board[i][j];
 					break;
 				}
@@ -644,26 +642,18 @@ public class Board extends JPanel implements MouseListener {
 			if (targetCells.contains(b)) {
 				HumanPlayer human = (HumanPlayer) players.get(indexOfHuman);
 				human.makeMove(b);
-				isHumanTurn = false;
+				HumanPlayer.isHumanTurn = false;
+				unhighlightTargets();
 				repaint();
 			}
 			else {
-				// ERROR
+				String errorMessage = "Invalid location selected!";
+				JOptionPane.showMessageDialog(new JFrame(), errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
 		}
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public boolean isHumanTurn() {
-		return isHumanTurn;
-	}
-
-	public void setHumanTurn(boolean isHumanTurn) {
-		this.isHumanTurn = isHumanTurn;
-	}
+	public void mouseReleased(MouseEvent e) {}
 }

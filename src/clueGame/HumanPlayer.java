@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.util.Set;
 
 public class HumanPlayer extends Player {
-
+	public static boolean isHumanTurn;	
+	
 	public HumanPlayer(String playerName, Color color, int row, int column) {
 		super(playerName, color, row, column, true);
 		super.isHuman = true;

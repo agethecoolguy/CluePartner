@@ -62,7 +62,7 @@ public class GameControlGUI extends JPanel {
     
     public class NextPlayerListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (!clueGame.isHumanPlayerTurnFinished()) {
+			if (HumanPlayer.isHumanTurn) {
 				String errorMessage = "You need to finish your turn!";
 				JOptionPane.showMessageDialog(clueGame, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				return;
@@ -72,7 +72,7 @@ public class GameControlGUI extends JPanel {
 			if (currentPlayer.isHuman) {
 				HumanPlayer human = (HumanPlayer) currentPlayer;
 				clueGame.getBoard().calcTargets(human.getRow(), human.getColumn(), rollDie());
-				clueGame.getBoard().setHumanTurn(true);
+				HumanPlayer.isHumanTurn = true;
 				clueGame.getBoard().highlightTargets();
 				//human.makeMove(clueGame.getBoard().getHumanTargets(), clueGame);
 			}
