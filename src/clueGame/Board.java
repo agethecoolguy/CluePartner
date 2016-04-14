@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.lang.reflect.Field;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -21,7 +23,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-public class Board extends JPanel {
+public class Board extends JPanel implements MouseListener {
 	private int numPlayers;
 	public final int NUM_WEAPONS = 6;
 	private int numColumns, numRows;
@@ -39,7 +41,9 @@ public class Board extends JPanel {
 	private ArrayList<String> weaponNames;
     private Set<Card> deckOfCards;
 	private Solution solution;
-
+	private boolean isHumanTurn;
+	private int indexOfHuman;
+	
 	public Board() {
 		instatiateDataMembers();
 		boardFile = "Clue_LayoutTeacher.csv";
@@ -52,6 +56,7 @@ public class Board extends JPanel {
 		this(); //call regular constructor
 		this.boardFile = boardFile;
 		this.legendFile = legendFile;
+		addMouseListener(this);
 	}
 	
 	public Board(String boardFile, String legendFile, String playersFile, String weaponsFile) {
@@ -67,6 +72,7 @@ public class Board extends JPanel {
 		roomNames = new HashSet<String>();
 		weaponNames = new ArrayList<String>();
 		deckOfCards = new HashSet<Card>();
+		targetCells = new HashSet<BoardCell>();
 	}
 
 	public void initialize(int numPlayers) {
@@ -179,7 +185,7 @@ public class Board extends JPanel {
 	@SuppressWarnings("resource")
     public void loadPlayersConfig() throws BadConfigFormatException {
 		Random rng = new Random();
-        int indexOfHuman = rng.nextInt(numPlayers);
+        indexOfHuman = rng.nextInt(numPlayers);
 		// SET UP LEGEND
         FileReader reader;
         try {
@@ -490,6 +496,20 @@ public class Board extends JPanel {
 		return targetCells;
 	}
 	
+	public void highlightTargets() {
+		for (BoardCell targetCell : targetCells) {
+			targetCell.setColor(Color.CYAN);
+		}
+		repaint();
+	}
+	
+	public void unhighlightTargets() {
+		for (BoardCell targetCell : targetCells) {
+			targetCell.setColor(Color.YELLOW);
+		}
+		repaint();
+	}
+	
 	public static Map<Character, String> getRooms() {
 		return rooms;
 	}
@@ -585,5 +605,65 @@ public class Board extends JPanel {
 				repaint();
 			}
 	    }
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (!isHumanTurn) {
+			return;
+		}
+		BoardCell b = null;
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numColumns; j++) {
+				if (board[i][j].containsClick(e.getX(), e.getY())) {
+					b = board[i][j];
+					break;
+				}
+			}
+		}
+		
+		if (b != null && (b.isWalkway() || b.isDoorway())) {
+			if (targetCells.contains(b)) {
+				HumanPlayer human = (HumanPlayer) players.get(indexOfHuman);
+				human.makeMove(b);
+				isHumanTurn = false;
+				repaint();
+			}
+			else {
+				// ERROR
+			}
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean isHumanTurn() {
+		return isHumanTurn;
+	}
+
+	public void setHumanTurn(boolean isHumanTurn) {
+		this.isHumanTurn = isHumanTurn;
 	}
 }

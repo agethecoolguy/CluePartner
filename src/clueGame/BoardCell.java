@@ -4,6 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -148,5 +150,13 @@ public class BoardCell extends JPanel {
 	
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	public boolean containsClick(int mouseX, int mouseY) {
+		Rectangle rectangle = new Rectangle(xPixelCoordinate, yPixelCoordinate, SIDE_LENGTH, SIDE_LENGTH);
+		if (rectangle.contains(new Point(mouseX, mouseY))) {
+			return true;
+		}
+		return false;
 	}
 }

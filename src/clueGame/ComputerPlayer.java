@@ -56,7 +56,7 @@ public class ComputerPlayer extends Player {
         roomLastVisited = room;
     }
     
-	public void makeMove() {
-		
+	public void makeMove(Set<BoardCell> targets) {
+		super.move(this.pickLocation(targets));
 	}
 }

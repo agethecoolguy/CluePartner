@@ -17,14 +17,14 @@ public class ClueGame extends JFrame {
 	private GameControlGUI gameControl;
 	private PlayerCardDisplay playerCardDisplay;
 	private DetectiveNotesDialog notesDialog;
-	private boolean humanPlayerTurnFinished;
+	private static boolean humanPlayerTurnFinished;
 	private int indexOfCurrentPlayer;
 	private int numPlayers;
 	
 	public ClueGame() throws HeadlessException {
 		super();
 		numPlayers = 6; //TEMPORARY--------------------------------------------------<<<<
-		indexOfCurrentPlayer = 0;
+		indexOfCurrentPlayer = -1;
 		humanPlayerTurnFinished = false;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Clue");
@@ -41,9 +41,7 @@ public class ClueGame extends JFrame {
         board.dealCards();
         setSize(910, 900);
 		add(board, BorderLayout.CENTER);
-		if (!board.getPlayers().get(indexOfCurrentPlayer).isHuman) {
-			humanPlayerTurnFinished = true;
-		}
+		humanPlayerTurnFinished = true;
 		
 		notesDialog = new DetectiveNotesDialog(board.getPlayers(), board.getCardRooms(), board.getWeapons());
 		

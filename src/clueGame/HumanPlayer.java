@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.Set;
 
 public class HumanPlayer extends Player {
 
@@ -16,8 +17,8 @@ public class HumanPlayer extends Player {
 	}
 	*/
 	
-	public void makeMove() {
-		
+	public void makeMove(BoardCell moveCell) {
+		super.move(moveCell);
 	}
 
 }

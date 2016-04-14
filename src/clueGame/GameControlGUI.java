@@ -64,7 +64,7 @@ public class GameControlGUI extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			if (!clueGame.isHumanPlayerTurnFinished()) {
 				String errorMessage = "You need to finish your turn!";
-				JOptionPane.showMessageDialog(clueGame, errorMessage, "Error", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(clueGame, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			Player currentPlayer = clueGame.nextPlayer();
@@ -72,13 +72,16 @@ public class GameControlGUI extends JPanel {
 			if (currentPlayer.isHuman) {
 				HumanPlayer human = (HumanPlayer) currentPlayer;
 				clueGame.getBoard().calcTargets(human.getRow(), human.getColumn(), rollDie());
-				human.makeMove();
+				clueGame.getBoard().setHumanTurn(true);
+				clueGame.getBoard().highlightTargets();
+				//human.makeMove(clueGame.getBoard().getHumanTargets(), clueGame);
 			}
 			else {
 				ComputerPlayer cpu = (ComputerPlayer) currentPlayer;
 				clueGame.getBoard().calcTargets(cpu.getRow(), cpu.getColumn(), rollDie());
-				cpu.makeMove();
+				cpu.makeMove(clueGame.getBoard().getTargets());
 			}
+			clueGame.repaint();
 		}
 	}
 
@@ -98,7 +101,7 @@ public class GameControlGUI extends JPanel {
         currentPlayerPanel.add(currentPlayerLabel);
 
         currentPlayerTextField = new JTextField(20);
-        currentPlayerTextField.setText(clueGame.getCurrentPlayer().getPlayerName()); // temporary, should grab from board
+        //currentPlayerTextField.setText(clueGame.getCurrentPlayer().getPlayerName()); // temporary, should grab from board
         //currentPlayer.setHorizontalAlignment(JLabel.CENTER);
         currentPlayerTextField.setEditable(false);
         currentPlayerPanel.add(currentPlayerTextField);
