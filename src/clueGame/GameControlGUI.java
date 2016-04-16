@@ -62,6 +62,7 @@ public class GameControlGUI extends JPanel {
     
     public class NextPlayerListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			clueGame.getBoard().clearSuggestionFields();
 			if (HumanPlayer.isHumanTurn) {
 				String errorMessage = "You need to finish your turn!";
 				JOptionPane.showMessageDialog(clueGame, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
@@ -74,12 +75,13 @@ public class GameControlGUI extends JPanel {
 				clueGame.getBoard().calcTargets(human.getRow(), human.getColumn(), rollDie());
 				HumanPlayer.isHumanTurn = true;
 				clueGame.getBoard().highlightTargets();
-				//human.makeMove(clueGame.getBoard().getHumanTargets(), clueGame);
 			}
 			else {
 				ComputerPlayer cpu = (ComputerPlayer) currentPlayer;
 				clueGame.getBoard().calcTargets(cpu.getRow(), cpu.getColumn(), rollDie());
-				cpu.makeMove(clueGame.getBoard().getTargets());
+				cpu.makeMove(clueGame.getBoard().getTargets(), clueGame.getBoard());
+				resultTextField.setText(clueGame.getBoard().getSuggestionResultString());
+				guessTextField.setText(clueGame.getBoard().getGuessString());
 			}
 			clueGame.repaint();
 		}
@@ -118,7 +120,7 @@ public class GameControlGUI extends JPanel {
         JLabel dieLabel = new JLabel("Roll:");
         diePanel.add(dieLabel);
 
-        dieTextField = new JTextField(5);
+        dieTextField = new JTextField(3);
         dieTextField.setEditable(false);
         diePanel.add(dieTextField);
 
@@ -134,7 +136,8 @@ public class GameControlGUI extends JPanel {
         JLabel guessLabel = new JLabel("Guess: ");
         guessPanel.add(guessLabel);
 
-        guessTextField = new JTextField(25);
+        guessTextField = new JTextField(50);
+        guessTextField.setEditable(false);
         guessPanel.add(guessTextField);
 
         guessPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
@@ -144,12 +147,12 @@ public class GameControlGUI extends JPanel {
 
     private JPanel createResultPanel() {
         JPanel resultPanel = new JPanel();
-        resultPanel.setLayout(new GridLayout(1, 2));
+        resultPanel.setLayout(new GridLayout(2, 1));
 
         JLabel resultLabel = new JLabel("Response: ");
         resultPanel.add(resultLabel);
 
-        resultTextField = new JTextField(10);
+        resultTextField = new JTextField(15);
         resultTextField.setEditable(false);
         resultPanel.add(resultTextField);
 

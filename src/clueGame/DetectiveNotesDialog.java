@@ -16,8 +16,8 @@ import javax.swing.border.TitledBorder;
 public class DetectiveNotesDialog extends JDialog {
 	ArrayList<Player> playerList;
 	Set<String> roomSet;
-	ArrayList<String> weaponList;
-	public DetectiveNotesDialog(ArrayList<Player> players, Set<String> rooms, ArrayList<String> weapons) {
+	Set<String> weaponList;
+	public DetectiveNotesDialog(ArrayList<Player> players, Set<String> rooms, Set<String> weapons) {
 	    playerList = players;
 	    roomSet = rooms;
 	    weaponList = weapons;

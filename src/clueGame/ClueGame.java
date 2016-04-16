@@ -43,7 +43,7 @@ public class ClueGame extends JFrame {
 		add(board, BorderLayout.CENTER);
 		HumanPlayer.isHumanTurn = false;
 		
-		notesDialog = new DetectiveNotesDialog(board.getPlayers(), board.getCardRooms(), board.getWeapons());
+		notesDialog = new DetectiveNotesDialog(board.getPlayers(), board.getCardRooms(), board.getWeaponNames());
 		
 		gameControl = new GameControlGUI(this);
 		add(gameControl, BorderLayout.SOUTH);

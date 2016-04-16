@@ -31,8 +31,6 @@ public class Board extends JPanel implements MouseListener {
 	public static int NUM_ROOMS;
 	private int numColumns, numRows;
 	private BoardCell[][] board;
-	private static Map<Character, String> rooms; //this maps room characters to room names
-	private Set<String> roomNames;
 	private String boardFile;
 	private String legendFile;
 	private String playersFile;
@@ -40,10 +38,15 @@ public class Board extends JPanel implements MouseListener {
 	private Set<BoardCell> visitedCells;
 	private Set<BoardCell> targetCells;
 	private Map<BoardCell, LinkedList<BoardCell>> adjacencyMatrix;
+	private static Map<Character, String> rooms; //this maps room characters to room names
 	private ArrayList<Player> players;
-	private ArrayList<String> weaponNames;
+	private Set<String> playerNames;
+	private Set<String> roomNames;
+	private Set<String> weaponNames;
     private Set<Card> deckOfCards;
 	private Solution solution;
+	private String suggestionResultString;
+	private String guessString;
 	private int indexOfHuman;
 	
 	public Board() {
@@ -72,9 +75,10 @@ public class Board extends JPanel implements MouseListener {
 		rooms = new HashMap<Character, String>();
 		players = new ArrayList<Player>();
 		roomNames = new HashSet<String>();
-		weaponNames = new ArrayList<String>();
+		weaponNames = new HashSet<String>();
+		playerNames = new HashSet<String>();
 		deckOfCards = new HashSet<Card>();
-		targetCells = new HashSet<BoardCell>();
+		targetCells = new HashSet<BoardCell>();		
 	}
 
 	public void initialize(int numPlayers) {
@@ -93,7 +97,7 @@ public class Board extends JPanel implements MouseListener {
 		loadRoomConfig();
 		loadBoardConfig();
 		loadPlayersConfig();
-		loadWeaponsConfig();		
+		loadWeaponsConfig();
 	}
 
 	@SuppressWarnings("resource")
@@ -214,6 +218,7 @@ public class Board extends JPanel implements MouseListener {
         	
         	//get player name
         	String playerName = data[0];
+        	playerNames.add(playerName);
         	//get player color: invalid if color code does not exist
         	Color playerColor;
 			try {
@@ -282,7 +287,7 @@ public class Board extends JPanel implements MouseListener {
 		// put cards into solution, removing them from the list
         String solutionPerson = players.get(rng.nextInt(players.size())).getPlayerName();
         deckOfCards.remove(new Card(solutionPerson, CardType.PERSON));
-        String solutionWeapon = weaponNames.get(rng.nextInt(weaponNames.size()));
+        String solutionWeapon = (new ArrayList<String>(weaponNames)).get(rng.nextInt(weaponNames.size()));
         deckOfCards.remove(new Card(solutionWeapon, CardType.WEAPON));
         String solutionRoom = (new ArrayList<String>(roomNames)).get(rng.nextInt(roomNames.size()));
         deckOfCards.remove(new Card(solutionRoom, CardType.ROOM));
@@ -290,6 +295,16 @@ public class Board extends JPanel implements MouseListener {
 	}
 	
 	public Card handleSuggestion(Solution suggestion, Player accusingPlayer, BoardCell clicked) {
+		// UPDATE GUI
+		guessString = suggestion.person + " in the " + suggestion.room + " with the " + suggestion.weapon;
+		for (Player p : players) { // move the suggested player into the suggested room
+			if (p.getPlayerName().equals(suggestion.person)) {
+				p.move(accusingPlayer.getCurrentCell());
+				repaint();
+				break;
+			}			
+		}
+		
 		int indexOfAccuser = -1; //This is an error code: index of accuser should never be -1
 		
 		indexOfAccuser = players.indexOf(accusingPlayer);
@@ -310,7 +325,28 @@ public class Board extends JPanel implements MouseListener {
 				break;
 			}
 		}
+		
+		if (result != null) {
+			suggestionResultString = result.getCardName();
+		}
+		else {
+			suggestionResultString = "No response...";
+		}
+		
 		return result;
+	}
+	
+	public String getGuessString() {
+		return guessString;
+	}
+	
+	public String getSuggestionResultString() {
+		return suggestionResultString;
+	}
+	
+	public void clearSuggestionFields() {
+		guessString = "";
+		suggestionResultString = "";
 	}
 	
 	public boolean checkAccusation(Solution accusation) {
@@ -563,7 +599,7 @@ public class Board extends JPanel implements MouseListener {
 		return players;
     }
 
-    public ArrayList<String> getWeapons() {
+    public Set<String> getWeaponNames() {
         return weaponNames;
     }
 	   
@@ -579,10 +615,19 @@ public class Board extends JPanel implements MouseListener {
     public Solution getSolution() {
         return solution;
     }
+    
+
+	public Set<String> getPlayerNames() {
+		return playerNames;
+	}
 
     public void setSolution(Solution solution) {
         this.solution = solution;
     }
+    
+    public Set<String> getRoomNames() {
+		return roomNames;
+	}
     
     public void findDoorways() {
     	int counter = 0;

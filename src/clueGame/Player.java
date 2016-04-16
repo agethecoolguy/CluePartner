@@ -16,11 +16,13 @@ public class Player extends JPanel {
 	private String playerName;
 	private int row;
 	private int column;
+	protected BoardCell currentCell;
 	private int xPixelCoordinate;
 	private int yPixelCoordinate;
+	int sideLength;
 	private Color color;
-	private ArrayList<Card> myCards = new ArrayList<Card>();
-	private ArrayList<Card> seenCards = new ArrayList<Card>();
+	protected ArrayList<Card> myCards = new ArrayList<Card>();
+	protected ArrayList<Card> seenCards = new ArrayList<Card>();
 	protected boolean isHuman;
 	
 	public Player(String playerName, Color color, int row, int column, boolean isHuman) {
@@ -30,6 +32,7 @@ public class Player extends JPanel {
 		this.isHuman = isHuman;
 		xPixelCoordinate = column * BoardCell.SIDE_LENGTH;
 		yPixelCoordinate = row * BoardCell.SIDE_LENGTH;
+		sideLength = (int) (BoardCell.SIDE_LENGTH/1.5);
 		this.color = color;
 	}
 
@@ -59,20 +62,24 @@ public class Player extends JPanel {
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
 		Graphics2D g2 = (Graphics2D) g;
-		Ellipse2D.Double circle = new Ellipse2D.Double(xPixelCoordinate, yPixelCoordinate, BoardCell.SIDE_LENGTH, BoardCell.SIDE_LENGTH);
+		Ellipse2D.Double circle = new Ellipse2D.Double(xPixelCoordinate, yPixelCoordinate, sideLength, sideLength);
 		g2.setColor(color);
 		g2.fill(circle);
 		g2.setColor(Color.BLACK);
-		g2.drawOval(xPixelCoordinate, yPixelCoordinate, BoardCell.SIDE_LENGTH, BoardCell.SIDE_LENGTH);
+		g2.drawOval(xPixelCoordinate, yPixelCoordinate, sideLength, sideLength);
 	}
 	
 	public void move(BoardCell targetCell) {
+		Random rng = new Random();
+		int maxOffset = BoardCell.SIDE_LENGTH - sideLength;
 		row = targetCell.getRow();
 		yPixelCoordinate = row * BoardCell.SIDE_LENGTH;
+		yPixelCoordinate = yPixelCoordinate + rng.nextInt(maxOffset);
 		column = targetCell.getCol();
 		xPixelCoordinate = column * BoardCell.SIDE_LENGTH;
+		xPixelCoordinate= xPixelCoordinate + rng.nextInt(maxOffset);
+		currentCell = targetCell;
 	}
 	
 	@Override
@@ -119,5 +126,9 @@ public class Player extends JPanel {
 	
 	public void setHuman(boolean isHuman) {
 		this.isHuman = isHuman;
+	}
+	
+	public BoardCell getCurrentCell() {
+		return currentCell;
 	}
 }

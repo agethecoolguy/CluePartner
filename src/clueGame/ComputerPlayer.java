@@ -6,9 +6,11 @@ import java.util.Random;
 import java.util.Set;
 
 public class ComputerPlayer extends Player {
+	private Solution accusation;
+	boolean solutionFound = false;
 
     private char roomLastVisited = 'Z';
-    private char secondToLastRoomVisited = 'Z';
+    //private char secondToLastRoomVisited = 'Z';
 
     public ComputerPlayer(String playerName, Color color, int row, int column) {
         super(playerName, color, row, column, false);
@@ -22,8 +24,8 @@ public class ComputerPlayer extends Player {
         BoardCell cellToReturn = null;
         for (BoardCell b : targets) { // this loop determines each target that consists of an unvisited doorway
             arrayTargets.add(b);
-            if (b.isDoorway() && ((b.getRoomLetter() != roomLastVisited) && (b.getRoomLetter() != secondToLastRoomVisited))) {
-                doorwayTargets.add(b);
+            if (b.isDoorway() && ((b.getRoomLetter() != roomLastVisited))) {// && (b.getRoomLetter() != secondToLastRoomVisited))) {
+            	doorwayTargets.add(b);
             }
         }
         if (doorwayTargets.size() >= 1) {
@@ -35,7 +37,6 @@ public class ComputerPlayer extends Player {
         }
         
         if (cellToReturn.isDoorway()){ // this ensures that walkways are never considered as "rooms"
-            secondToLastRoomVisited = roomLastVisited;
         	roomLastVisited = cellToReturn.getRoomLetter();
         }
         return cellToReturn;
@@ -45,8 +46,43 @@ public class ComputerPlayer extends Player {
 
     }
 
-    public void makeSuggestion(Board board, BoardCell location) {
-
+    public void makeSuggestion(Board board) {
+    	String person = null;
+    	String weapon = null;
+    	String room = null;
+    	
+    	Random rng = new Random();
+    	ArrayList<String> tempList;
+    	
+    	//The following for loops simply ensure that the computer tries REALLY hard not to suggest a card it knows is wrong
+    	for(int i = 0; i < 100; i++) { // Select a person to suggest
+    		tempList = new ArrayList<String>(board.getPlayerNames());
+    		person = tempList.get(rng.nextInt(tempList.size()));
+    		// if myCards and seenCards don't contain the card, or if the final iteration of the for loop...
+    		if ((!super.myCards.contains(new Card(person, CardType.PERSON)) && !super.seenCards.contains(new Card(person, CardType.PERSON))) || i == 100) {
+    			break;
+    		}
+    	}
+    	
+    	for(int i = 0; i < 100; i++) { // Select a weapon to suggest
+    		tempList = new ArrayList<String>(board.getWeaponNames());
+    		weapon = tempList.get(rng.nextInt(tempList.size()));
+    		if ((!super.myCards.contains(new Card(weapon, CardType.WEAPON)) && !super.seenCards.contains(new Card(weapon, CardType.WEAPON))) || i == 100) {
+    			break;
+    		}
+    	}
+    	
+    	room = board.getRooms().get(currentCell.getRoomLetter());
+    	    	
+    	Solution suggestion = new Solution(person, weapon, room);
+    	Card returnedCard = board.handleSuggestion(suggestion, this, currentCell);
+    	if (returnedCard != null) {
+    		myCards.add(returnedCard);
+    	}
+    	else {
+    		accusation = suggestion;
+    		solutionFound = true;
+    	}
     }
 
     public Character getRoomLastVisited() {
@@ -58,7 +94,12 @@ public class ComputerPlayer extends Player {
         roomLastVisited = room;
     }
     
-	public void makeMove(Set<BoardCell> targets) {
-		super.move(this.pickLocation(targets));
+	public void makeMove(Set<BoardCell> targets, Board board) {
+		BoardCell moveCell = this.pickLocation(targets); 
+		super.move(moveCell);
+		if (moveCell.isWalkway()) {
+			return;
+		}
+		makeSuggestion(board);
 	}
 }
