@@ -8,10 +8,12 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 public class HumanPlayer extends Player {
+
 	public static boolean isHumanTurn;	
 	private Solution suggestion;
 	private String currentRoom;
 	private Boolean suggestionCanceled = false;
+	private Solution accusation;
 
 	public HumanPlayer(String playerName, Color color, int row, int column) {
 		super(playerName, color, row, column, true);
@@ -56,6 +58,11 @@ public class HumanPlayer extends Player {
     		JOptionPane.showMessageDialog(this, returnedCardMessage, "Disproved!", JOptionPane.INFORMATION_MESSAGE);
     	}
 	}
+	
+    public void makeAccusation(Solution accusation, Board board) {
+    	isHumanTurn = false;
+    	board.checkAccusation(accusation, this.playerName);
+    }
 
 	public void setSuggestion(Solution suggestion) {
 		this.suggestion = suggestion;
@@ -68,7 +75,11 @@ public class HumanPlayer extends Player {
 	public void setSuggestionCanceled(Boolean suggestionCanceled) {
 		this.suggestionCanceled = suggestionCanceled;
 	}
-	
-
-
+		
+	public void setAccusation(Solution accusation) {
+		this.accusation = accusation;
+	}
+	public Solution getAccusation() {
+		return accusation;
+	}
 }

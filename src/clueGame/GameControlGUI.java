@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,7 +24,7 @@ public class GameControlGUI extends JPanel {
     private JTextField guessTextField;
     private JTextField resultTextField;
     private ClueGame clueGame;
-    private int dieValue;
+    private int dieValue;    
 
     public GameControlGUI(ClueGame clueGame) {
     	this.clueGame = clueGame;
@@ -89,11 +90,30 @@ public class GameControlGUI extends JPanel {
 	}
 
     private JPanel createAccusationButton() {
-        JButton nextPlayerButton = new JButton("Make accusation");
-        JPanel nextPlayerPanel = new JPanel();
-        nextPlayerPanel.add(nextPlayerButton);
-        return nextPlayerPanel;
+        JButton accusationButton = new JButton("Make accusation");
+        JPanel accusationPanel = new JPanel();
+        accusationButton.addActionListener(new AccusationListener());
+        accusationPanel.add(accusationButton);
+        return accusationPanel;
     }
+    
+    public class AccusationListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (HumanPlayer.isHumanTurn) {		
+				HumanPlayerAccusationGUI accusationDialog = new HumanPlayerAccusationGUI(clueGame.getBoard().getPlayerNames(), clueGame.getBoard().getWeaponNames(),clueGame.getBoard().getRoomNames(), clueGame.getBoard().getHumanPlayer());
+				accusationDialog.setVisible(true);
+				if (accusationDialog.getSubmitted()){
+					clueGame.getBoard().getHumanPlayer().makeAccusation(clueGame.getBoard().getHumanPlayer().getAccusation(), clueGame.getBoard());
+				}
+			}
+			else{
+				String errorMessage = "You can only make accusations on your turn.";
+				JOptionPane.showMessageDialog(clueGame, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		}
+	}
+    
 
     private JPanel createCurrentPlayerPanel() {
         JPanel currentPlayerPanel = new JPanel();

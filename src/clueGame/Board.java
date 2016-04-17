@@ -660,6 +660,9 @@ public class Board extends JPanel implements MouseListener {
 	public Player getWinner() {
 		return winner;
 	}
+	public HumanPlayer getHumanPlayer(){
+		return (HumanPlayer) players.get(indexOfHuman);
+	}
     
     public void findDoorways() {
     	int counter = 0;

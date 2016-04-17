@@ -1,57 +1,53 @@
 package clueGame;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
 
-public class HumanPlayerSuggestionGUI extends JDialog{
+public class HumanPlayerAccusationGUI extends JDialog{
 	private Set<String> playerList;
 	private Set<String> weaponList;
+	private Set<String> roomList;
 	private HumanPlayer humanPlayer;
-	private String suggestedPerson;
-	private String suggestedWeapon;
-	private JComboBox<String> personCombo, weaponCombo;
+	private String accusedPerson;
+	private String accusedWeapon;
+	private String accusedRoom;
+	private JComboBox<String> personCombo, weaponCombo, roomCombo;
 	private JButton submit, cancel;
-
-	public HumanPlayerSuggestionGUI(Set<String> players, Set<String> weapons, HumanPlayer human){
+	private Boolean submitted; 
+	
+	public HumanPlayerAccusationGUI(Set<String> players, Set<String> weapons, Set<String> rooms, HumanPlayer human){
 	    playerList = players;
 	    weaponList = weapons;
+	    roomList = rooms;
 	    humanPlayer = human;
 	    
 		setSize(new Dimension(400, 250));
 		setLayout(new GridLayout(4, 2));
-		setTitle("Make a Guess");
+		setTitle("Make an Accusation");
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		
-		JLabel roomLabel = new JLabel("Your room");
+		JLabel roomLabel = new JLabel("Room");
 		JLabel personLabel = new JLabel("Person");
 		JLabel weaponLabel = new JLabel("Weapon");
-				
-		JTextField currentRoom = new JTextField(15);
-		currentRoom.setEditable(false);
-		currentRoom.setText(humanPlayer.getCurrentRoom());
+		
+		roomCombo = createRoomCombo();
 		personCombo = createPersonCombo();
-		weaponCombo = createWeaponCombo();	
+		weaponCombo = createWeaponCombo();
 		
 		submit = new JButton("Submit");
 		cancel = new JButton("Cancel");
 		
 		this.add(roomLabel);
-		this.add(currentRoom);
+		this.add(roomCombo);
 		this.add(personLabel);
 		this.add(personCombo);
 		this.add(weaponLabel);
@@ -62,9 +58,9 @@ public class HumanPlayerSuggestionGUI extends JDialog{
 		ComboListener listener = new ComboListener();
 		personCombo.addActionListener(listener);
 		weaponCombo.addActionListener(listener);
+		roomCombo.addActionListener(listener);
 		submit.addActionListener(new SubmitListener());
-		cancel.addActionListener(new CancelListener());
-
+		cancel.addActionListener(new CancelListener());		
 	}
 	
 	private JComboBox<String> createPersonCombo() {	    
@@ -82,29 +78,44 @@ public class HumanPlayerSuggestionGUI extends JDialog{
 	    }
 		return weaponDropdown;
 	}
-	
+	private JComboBox<String> createRoomCombo() {	    
+	    JComboBox<String> roomDropdown = new JComboBox<String>();
+	    for (String room : roomList){
+	        roomDropdown.addItem(room);
+	    }
+		return roomDropdown;
+	}
 	private class ComboListener implements ActionListener {
 		  public void actionPerformed(ActionEvent e)
 		  {
 		    if (e.getSource() == personCombo){
-		    	suggestedPerson = personCombo.getSelectedItem().toString();
+		    	accusedPerson = personCombo.getSelectedItem().toString();
 		    }
-		    else
-		      suggestedWeapon = weaponCombo.getSelectedItem().toString();
+		    else if (e.getSource() == weaponCombo){
+		    	accusedWeapon = weaponCombo.getSelectedItem().toString();
+		    }
+		    else {
+		    	accusedRoom = roomCombo.getSelectedItem().toString();
+		    }
+		    	
 		  }
 		}
 	class SubmitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			humanPlayer.setSuggestion(new Solution(suggestedPerson, suggestedWeapon, humanPlayer.getCurrentRoom()));
+			submitted = true;
+			humanPlayer.setAccusation(new Solution(accusedPerson, accusedWeapon, accusedRoom));
 			setVisible(false);
 		}
 	}
 	
 	class CancelListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			humanPlayer.setSuggestionCanceled(true);
+			submitted = false;
 			setVisible(false);
 		}
 	}
-	
+	public Boolean getSubmitted() {
+		return submitted;
+	}
+
 }
