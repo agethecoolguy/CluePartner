@@ -49,7 +49,7 @@ public class HumanPlayer extends Player {
     	}
     	isHumanTurn = false;
     	suggestionCanceled = false;
-    	Card returnedCard = board.handleSuggestion(suggestion, this, currentCell);   	
+    	Card returnedCard = board.handleSuggestion(suggestion, this, currentCell, false);   	
     	if (returnedCard != null) {
     		humansSuggestionDisproved = true;
     	}
@@ -60,7 +60,7 @@ public class HumanPlayer extends Player {
 	
     public void makeAccusation(Solution accusation, Board board) {
     	isHumanTurn = false;
-    	board.checkAccusation(accusation, this.playerName);
+    	board.checkAccusation(accusation, this.playerName, false);
     	board.unhighlightTargets();
     }
 

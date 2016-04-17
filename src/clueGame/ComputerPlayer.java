@@ -47,13 +47,13 @@ public class ComputerPlayer extends Player {
 
     public void makeAccusation(Solution accusation, Board board) {
     	numberOfTimesAccused++;
-    	solutionFound = board.checkAccusation(accusation, playerName);
+    	solutionFound = board.checkAccusation(accusation, playerName, false);
     }
 
     public void makeSuggestion(Board board) {
     	Solution suggestion = generateSolution(board);
     	suggestion.room = board.getRooms().get(currentCell.getRoomLetter());
-    	Card returnedCard = board.handleSuggestion(suggestion, this, currentCell);
+    	Card returnedCard = board.handleSuggestion(suggestion, this, currentCell, false);
     	if (returnedCard != null) {
     		myCards.add(returnedCard);
     	}

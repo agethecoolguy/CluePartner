@@ -25,7 +25,8 @@ public class GameControlGUI extends JPanel {
     private JTextField resultTextField;
     private ClueGame clueGame;
     private int dieValue;
-    boolean firstMove = true;
+    private boolean firstMove = true;
+    private int moveCounter = 0;
 
     public GameControlGUI(ClueGame clueGame) {
     	this.clueGame = clueGame;
@@ -93,7 +94,10 @@ public class GameControlGUI extends JPanel {
 			}
 			clueGame.repaint();
 			clueGame.checkForMatchCompletion();
-			firstMove = false;
+			moveCounter++;
+			if (moveCounter >= 5) {
+				firstMove = false;
+			}
 		}
 	}
 

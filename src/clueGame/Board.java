@@ -51,6 +51,7 @@ public class Board extends JPanel implements MouseListener {
 	boolean gameOver = false;
 	private Player winner;
 	private ClueGame clueGame;
+	private boolean testingState = false;
 
 	public Board() {
 		instatiateDataMembers();
@@ -194,9 +195,12 @@ public class Board extends JPanel implements MouseListener {
 	
 	@SuppressWarnings("resource")
     public void loadPlayersConfig() throws BadConfigFormatException {
-		//Random rng = new Random();
-        //indexOfHuman = rng.nextInt(numPlayers);
-		indexOfHuman = 0;
+		if (!testingState) {
+			Random rng = new Random();
+			indexOfHuman = rng.nextInt(numPlayers);
+		} else {
+			indexOfHuman = 0; // testing requires that human be the first player
+		}
 		
 		// SET UP LEGEND
         FileReader reader;
@@ -297,7 +301,7 @@ public class Board extends JPanel implements MouseListener {
         setSolution(new Solution(solutionPerson, solutionWeapon, solutionRoom));
 	}
 	
-	public Card handleSuggestion(Solution suggestion, Player accusingPlayer, BoardCell clicked) {
+	public Card handleSuggestion(Solution suggestion, Player accusingPlayer, BoardCell clicked, boolean testing) {
 		// UPDATE GUI
 		guessString = suggestion.person + " in the " + suggestion.room + " with the " + suggestion.weapon;
 		for (Player p : players) { // move the suggested player into the suggested room
@@ -341,7 +345,9 @@ public class Board extends JPanel implements MouseListener {
 			suggestionResultString = "No new clue...";
 		}
 		
-		sendSuggestionUpdate();
+		if (!testing) {
+			sendSuggestionUpdate();
+		}
 		
 		return result;
 	}
@@ -363,7 +369,7 @@ public class Board extends JPanel implements MouseListener {
 		suggestionResultString = "";
 	}
 	
-	public boolean checkAccusation(Solution accusation, String playerName) {
+	public boolean checkAccusation(Solution accusation, String playerName, boolean testing) {
 		boolean isCorrect = false;
 		if (accusation.person.equals(solution.person) &&
 			accusation.room.equals(solution.room) &&
@@ -386,7 +392,11 @@ public class Board extends JPanel implements MouseListener {
 			accusationMessage += "\n ... And it's wrong! :( Play on!";
 		}
 		JOptionPane.showMessageDialog(this, accusationMessage, "Accusation made!", JOptionPane.INFORMATION_MESSAGE);
-		clueGame.checkForMatchCompletion();
+		
+		if (!testing) {
+			clueGame.checkForMatchCompletion();
+		}
+		
 		return isCorrect;
 	}
 
@@ -749,4 +759,8 @@ public class Board extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {}
+
+	public void setTestingState(boolean testingState) {
+		this.testingState = testingState;
+	}
 }

@@ -63,28 +63,28 @@ public class GameActionTests {
     @Test
     public void testCorrectAccusation() { // tests a solution with all correct components
     	Solution accusation = board.getSolution();
-    	assertTrue(board.checkAccusation(accusation, null));
+    	assertTrue(board.checkAccusation(accusation, null, true));
     }
     
     @Test
     public void testIncorrectPerson() { // tests a solution with an incorrect person component
     	Solution accusation = new Solution(board.getSolution().person, board.getSolution().weapon, board.getSolution().room);
     	accusation.person = "Unfunny Name";
-    	assertFalse(board.checkAccusation(accusation, ""));
+    	assertFalse(board.checkAccusation(accusation, "", true));
     }
     
     @Test
     public void testIncorrectWeapon() { // tests a solution with an incorrect weapon component
     	Solution accusation = new Solution(board.getSolution().person, board.getSolution().weapon, board.getSolution().room);
     	accusation.person = "Unoriginal Weapon";
-    	assertFalse(board.checkAccusation(accusation, ""));
+    	assertFalse(board.checkAccusation(accusation, "", true));
     }
     
     @Test
     public void testIncorrectRoom() { // tests a solution with an incorrect room component
     	Solution accusation = new Solution(board.getSolution().person, board.getSolution().weapon, board.getSolution().room);
     	accusation.room = "Generic Room";
-    	assertFalse(board.checkAccusation(accusation, ""));
+    	assertFalse(board.checkAccusation(accusation, "", true));
     }
     
     @Test
@@ -92,17 +92,17 @@ public class GameActionTests {
     	Solution accusation = new Solution(board.getSolution().person, board.getSolution().weapon, board.getSolution().room);
     	accusation.person = "Unfunny Name";
     	accusation.person = "Unoriginal Weapon";
-    	assertFalse(board.checkAccusation(accusation, ""));
+    	assertFalse(board.checkAccusation(accusation, "", true));
     	
     	accusation = new Solution(board.getSolution().person, board.getSolution().weapon, board.getSolution().room);
     	accusation.person = "Unfunny Name";
     	accusation.room = "Generic Room";
-    	assertFalse(board.checkAccusation(accusation, ""));
+    	assertFalse(board.checkAccusation(accusation, "", true));
     	
     	accusation = new Solution(board.getSolution().person, board.getSolution().weapon, board.getSolution().room);
     	accusation.person = "Unoriginal Weapon";
     	accusation.room = "Generic Room";
-    	assertFalse(board.checkAccusation(accusation, ""));
+    	assertFalse(board.checkAccusation(accusation, "", true));
     }
     
     @Test
@@ -111,7 +111,7 @@ public class GameActionTests {
     	accusation.person = "Unfunny Name";
     	accusation.person = "Unoriginal Weapon";
     	accusation.room = "Generic Room";
-    	assertFalse(board.checkAccusation(accusation, ""));
+    	assertFalse(board.checkAccusation(accusation, "", true));
     }
     
     //---------------------------------TEST SUGGESTIONS: ONE PERSON-----------------------------------------
@@ -222,42 +222,42 @@ public class GameActionTests {
     public void testSuggestionAllPlayersUndisprovable() { // this tests a case where no players can disprove a suggestion
     	createPlayers();
     	Solution suggestion = new Solution("wrongPerson", "wrongWeapon", "wrongRoom");
-    	assertEquals(null, board.handleSuggestion(suggestion, npc1, new BoardCell(DoorDirection.NONE, 'W')));
+    	assertEquals(null, board.handleSuggestion(suggestion, npc1, new BoardCell(DoorDirection.NONE, 'W'), true));
     }
     
     @Test
     public void testAllPlayersHumanDisproving() { // tests case where only human can disprove
     	createPlayers();
     	Solution suggestion = new Solution("wrongPerson", "Knife", "wrongRoom");
-    	assertEquals(new Card("Knife", CardType.WEAPON), board.handleSuggestion(suggestion, npc1, new BoardCell(DoorDirection.NONE, 'W')));
+    	assertEquals(new Card("Knife", CardType.WEAPON), board.handleSuggestion(suggestion, npc1, new BoardCell(DoorDirection.NONE, 'W'), true));
     }
     
     @Test
     public void testDecoySuggestionHuman() { // tests case where the person suggesting is the only person able to disprove, such that null is returned
     	createPlayers();
     	Solution suggestion = new Solution("wrongPerson", "Knife", "wrongRoom");
-    	assertEquals(null, board.handleSuggestion(suggestion, human, new BoardCell(DoorDirection.NONE, 'W'))); // human has Knife, so null should be returned
+    	assertEquals(null, board.handleSuggestion(suggestion, human, new BoardCell(DoorDirection.NONE, 'W'), true)); // human has Knife, so null should be returned
     }
     
     @Test
     public void testDecoySuggestionNPC1() { // tests case where the person suggesting is the only person able to disprove, such that null is returned
     	createPlayers();
     	Solution suggestion = new Solution("John", "wrongWeapon", "wrongRoom");
-    	assertEquals(null, board.handleSuggestion(suggestion, npc1, new BoardCell(DoorDirection.NONE, 'W'))); //npc1 has John, so null should be returned
+    	assertEquals(null, board.handleSuggestion(suggestion, npc1, new BoardCell(DoorDirection.NONE, 'W'), true)); //npc1 has John, so null should be returned
     }
     
     @Test
     public void testOrderOfDisproving() { // this tests the case where multiple people can disprove, ensuring that the first person disproves
     	createPlayers();
     	Solution suggestion = new Solution("Jack", "Knife", "wrongRoom"); // both npc3 and human have cards. npc3 is first in line so Jack should be returned
-    	assertEquals(new Card("Jack", CardType.PERSON), board.handleSuggestion(suggestion, npc1, new BoardCell(DoorDirection.NONE, 'W')));
+    	assertEquals(new Card("Jack", CardType.PERSON), board.handleSuggestion(suggestion, npc1, new BoardCell(DoorDirection.NONE, 'W'), true));
     }
     
     @Test
     public void testAllDisproving() { // this tests ensures that all people are being queried for disproving
     	createPlayers();
     	Solution suggestion = new Solution("Jack", "wrongWeapon", "wrongRoom"); // npc3 has Jack, and is farthest from npc4, so all players should be queried first before returning Jack
-    	assertEquals(new Card("Jack", CardType.PERSON), board.handleSuggestion(suggestion, npc4, new BoardCell(DoorDirection.NONE, 'W')));
+    	assertEquals(new Card("Jack", CardType.PERSON), board.handleSuggestion(suggestion, npc4, new BoardCell(DoorDirection.NONE, 'W'), true));
     }
     
     //---------------------------- TARGET SELECTION TESTS ------------------------------------
@@ -266,7 +266,7 @@ public class GameActionTests {
         int initialRow = 14;
         int initialColumn = 2;
         int steps = 2;
-        int expectedRow = 16; // TODO how are we defining a player being "in" a room?
+        int expectedRow = 16;
         int expectedColumn = 2;
         board.calcTargets(initialRow, initialColumn, steps);
         Set<BoardCell> targets = board.getTargets();

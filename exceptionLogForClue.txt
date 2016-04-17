@@ -1,1 +1,1 @@
-Too many players in CluePlayersStudent_BadFormat.txt
+Invalid format in legend file.

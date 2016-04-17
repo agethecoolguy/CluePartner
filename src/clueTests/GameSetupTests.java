@@ -23,6 +23,7 @@ public class GameSetupTests {
     @Before
     public void setUp() {
         board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "CluePlayersStudent.txt", "ClueWeaponsStudent.txt");
+        board.setTestingState(true);
         board.initialize(6);
         //deal cards is not included in this section because certain tests are dependent on its absence
     }
@@ -64,42 +65,49 @@ public class GameSetupTests {
 	@Test(expected = BadConfigFormatException.class)
 	public void testTooFewPlayers() throws BadConfigFormatException { // Exception test for a file with an insufficient number of players
 		board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "CluePlayersStudent_TooFew.txt", "ClueWeaponsStudent.txt");
+		board.setTestingState(true);
 		board.loadConfigFiles();
 	}
 	
 	@Test(expected = BadConfigFormatException.class)
 	public void testTooManyPlayers() throws BadConfigFormatException { // Exception test for a file with an excessive number of players 
 		board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "CluePlayersStudent_TooMany.txt", "ClueWeaponsStudent.txt");
+		board.setTestingState(true);
 		board.loadConfigFiles();
 	}
 	
 	@Test(expected = BadConfigFormatException.class)
 	public void testPlayersIncorrectFormat() throws BadConfigFormatException { // // Exception test for a file with bad format
 		board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "CluePlayersStudent_BadFormat.txt", "ClueWeaponsStudent.txt");
+		board.setTestingState(true);
 		board.loadConfigFiles();
 	}
 	
 	@Test(expected = BadConfigFormatException.class)
 	public void testPlayersMissingFile() throws BadConfigFormatException { // Exception test for a file that does not exist
 		board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "THIS_FILE_SHOULD_BE_MISSING.txt", "ClueWeaponsStudent.txt");
+		board.setTestingState(true);
 		board.loadConfigFiles();
 	}
 	
 	@Test(expected = BadConfigFormatException.class)
 	public void testPlayersInvalidLocationNegativeLocation() throws BadConfigFormatException { // Exception test for a file with a negative starting location for a player
 		board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "CluePlayersStudent_InvalidLocation1.txt", "ClueWeaponsStudent.txt");
+		board.setTestingState(true);
 		board.loadConfigFiles();
 	}
 	
 	@Test(expected = BadConfigFormatException.class)
 	public void testPlayersInvalidLocationExceedsBounds() throws BadConfigFormatException { // Exception test for a file with an invalid location for a player
 		board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "CluePlayersStudent_InvalidLocation2.txt", "ClueWeaponsStudent.txt");
+		board.setTestingState(true);
 		board.loadConfigFiles();
 	}
 	
 	@Test(expected = BadConfigFormatException.class)
 	public void testPlayersInvalidColor() throws BadConfigFormatException { // Exception test for a file with an invalid for a player
         board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "CluePlayersStudent_BadColor.txt", "ClueWeaponsStudent.txt");
+        board.setTestingState(true);
         board.loadConfigFiles();
     }
 	
