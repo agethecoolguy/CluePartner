@@ -50,6 +50,7 @@ public class Board extends JPanel implements MouseListener {
 	private int indexOfHuman;
 	boolean gameOver = false;
 	private Player winner;
+	private ClueGame clueGame;
 
 	public Board() {
 		instatiateDataMembers();
@@ -340,7 +341,13 @@ public class Board extends JPanel implements MouseListener {
 			suggestionResultString = "No new clue...";
 		}
 		
+		sendSuggestionUpdate();
+		
 		return result;
+	}
+	
+	public void sendSuggestionUpdate() {
+		clueGame.getGameControl().updateSuggestionPanel(guessString, suggestionResultString);
 	}
 	
 	public String getGuessString() {
@@ -660,10 +667,15 @@ public class Board extends JPanel implements MouseListener {
 	public Player getWinner() {
 		return winner;
 	}
+	
 	public HumanPlayer getHumanPlayer(){
 		return (HumanPlayer) players.get(indexOfHuman);
 	}
-    
+	
+	public void setClueGame(ClueGame clueGame) {
+		this.clueGame = clueGame;
+	}
+	    
     public void findDoorways() {
     	int counter = 0;
     	for (int i = 0; i < numRows; i++) {

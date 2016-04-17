@@ -39,15 +39,17 @@ public class HumanPlayer extends Player {
 	}
 	
 	public void makeSuggestion(Board board){
-		currentRoom = board.getRooms().get(currentCell.getRoomLetter());		
+		board.repaint();
+		currentRoom = board.getRooms().get(currentCell.getRoomLetter());
     	JDialog suggestionDialog = new HumanPlayerSuggestionGUI(board.getPlayerNames(), board.getWeaponNames(), this);
     	suggestionDialog.setVisible(true);
     	if (suggestionCanceled){
     		suggestionCanceled = false;
     		return;
     	}
+    	isHumanTurn = false;
     	suggestionCanceled = false;
-    	Card returnedCard = board.handleSuggestion(suggestion, this, currentCell);    	
+    	Card returnedCard = board.handleSuggestion(suggestion, this, currentCell);   	
     	if (returnedCard != null) {
     		humansSuggestionDisproved = true;
     	}
@@ -59,6 +61,7 @@ public class HumanPlayer extends Player {
     public void makeAccusation(Solution accusation, Board board) {
     	isHumanTurn = false;
     	board.checkAccusation(accusation, this.playerName);
+    	board.unhighlightTargets();
     }
 
 	public void setSuggestion(Solution suggestion) {

@@ -63,24 +63,39 @@ public class HumanPlayerAccusationGUI extends JDialog{
 		cancel.addActionListener(new CancelListener());		
 	}
 	
-	private JComboBox<String> createPersonCombo() {	    
+	private JComboBox<String> createPersonCombo() {	 
+		boolean personInit = false;
 	    JComboBox<String> personDropdown = new JComboBox<String>();
 	    for (String person : playerList){
+	    	if (!personInit) {
+	    		accusedPerson = person;
+	    		personInit = true;
+	    	}
 	        personDropdown.addItem(person);
 	    }
 		return personDropdown;
 	}
 	
-	private JComboBox<String> createWeaponCombo() {	    
+	private JComboBox<String> createWeaponCombo() {
+		boolean weaponInit = false;
 	    JComboBox<String> weaponDropdown = new JComboBox<String>();
 	    for (String weapon : weaponList){
+	    	if (!weaponInit) {
+	    		accusedWeapon = weapon;
+	    		weaponInit = true;
+	    	}
 	        weaponDropdown.addItem(weapon);
 	    }
 		return weaponDropdown;
 	}
-	private JComboBox<String> createRoomCombo() {	    
+	private JComboBox<String> createRoomCombo() {
+		boolean roomInit = false;
 	    JComboBox<String> roomDropdown = new JComboBox<String>();
 	    for (String room : roomList){
+	    	if (!roomInit) {
+	    		accusedRoom = room;
+	    		roomInit = true;
+	    	}
 	        roomDropdown.addItem(room);
 	    }
 		return roomDropdown;

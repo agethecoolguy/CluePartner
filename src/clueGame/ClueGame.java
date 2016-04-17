@@ -39,6 +39,7 @@ public class ClueGame extends JFrame {
         board = new Board("Clue_LayoutStudent.csv", "Clue_LegendStudent.txt", "CluePlayersStudent.txt", "ClueWeaponsStudent.txt");
         board.initialize(numPlayers);
         board.dealCards();
+        board.setClueGame(this);
         setSize(910, 900);
 		add(board, BorderLayout.CENTER);
 		HumanPlayer.isHumanTurn = false;
@@ -121,5 +122,10 @@ public class ClueGame extends JFrame {
 		ClueGame game = new ClueGame();
         game.setVisible(true);
     }
+	
+	public GameControlGUI getGameControl() {
+		return gameControl;
+	}
+
 
 }

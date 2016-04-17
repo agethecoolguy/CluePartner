@@ -14,8 +14,8 @@ import javax.swing.JPanel;
 public class Player extends JPanel {
 	public static final int MAX_CARDS = 18;
 	protected String playerName;
-	private int row;
-	private int column;
+	protected int row;
+	protected int column;
 	protected BoardCell currentCell;
 	private int xPixelCoordinate;
 	private int yPixelCoordinate;

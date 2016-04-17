@@ -24,7 +24,8 @@ public class GameControlGUI extends JPanel {
     private JTextField guessTextField;
     private JTextField resultTextField;
     private ClueGame clueGame;
-    private int dieValue;    
+    private int dieValue;
+    boolean firstMove = true;
 
     public GameControlGUI(ClueGame clueGame) {
     	this.clueGame = clueGame;
@@ -63,9 +64,7 @@ public class GameControlGUI extends JPanel {
     
     public class NextPlayerListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			resultTextField.setText(clueGame.getBoard().getSuggestionResultString());
-			guessTextField.setText(clueGame.getBoard().getGuessString());
-			//clueGame.getBoard().clearSuggestionFields();
+			clueGame.getBoard().clearSuggestionFields();
 			if (HumanPlayer.isHumanTurn) {
 				String errorMessage = "You need to finish your turn!";
 				JOptionPane.showMessageDialog(clueGame, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
@@ -75,6 +74,12 @@ public class GameControlGUI extends JPanel {
 			currentPlayerTextField.setText(currentPlayer.getPlayerName());
 			if (currentPlayer.isHuman) {
 				HumanPlayer human = (HumanPlayer) currentPlayer;
+				if (!firstMove && human.getCurrentCell().isDoorway()) {
+					human.makeSuggestion(clueGame.getBoard());
+					if (!HumanPlayer.isHumanTurn) {
+						return;
+					}
+				}
 				clueGame.getBoard().calcTargets(human.getRow(), human.getColumn(), rollDie());
 				HumanPlayer.isHumanTurn = true;
 				clueGame.getBoard().highlightTargets();
@@ -88,6 +93,7 @@ public class GameControlGUI extends JPanel {
 			}
 			clueGame.repaint();
 			clueGame.checkForMatchCompletion();
+			firstMove = false;
 		}
 	}
 
@@ -190,6 +196,11 @@ public class GameControlGUI extends JPanel {
     	dieTextField.setText(String.valueOf(dieValue));
     	
     	return dieValue; // + 1 ensures that zero is never rolled
+    }
+    
+    public void updateSuggestionPanel(String guessString, String suggestionResultString) {
+    	resultTextField.setText(suggestionResultString);
+		guessTextField.setText(guessString);
     }
     
     /*public static void main(String[] args) {

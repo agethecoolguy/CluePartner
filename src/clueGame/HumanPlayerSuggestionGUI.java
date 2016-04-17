@@ -67,17 +67,27 @@ public class HumanPlayerSuggestionGUI extends JDialog{
 
 	}
 	
-	private JComboBox<String> createPersonCombo() {	    
+	private JComboBox<String> createPersonCombo() {
+		boolean personInit = false;
 	    JComboBox<String> personDropdown = new JComboBox<String>();
 	    for (String person : playerList){
+	    	if (!personInit) {
+	    		suggestedPerson = person;
+	    		personInit = true;
+	    	}
 	        personDropdown.addItem(person);
 	    }
 		return personDropdown;
 	}
 	
-	private JComboBox<String> createWeaponCombo() {	    
+	private JComboBox<String> createWeaponCombo() {	 
+		boolean weaponInit = false;
 	    JComboBox<String> weaponDropdown = new JComboBox<String>();
 	    for (String weapon : weaponList){
+	    	if (!weaponInit) {
+	    		suggestedWeapon = weapon;
+	    		weaponInit = true;
+	    	}
 	        weaponDropdown.addItem(weapon);
 	    }
 		return weaponDropdown;
