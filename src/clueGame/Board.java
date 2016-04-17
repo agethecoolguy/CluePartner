@@ -386,6 +386,7 @@ public class Board extends JPanel implements MouseListener {
 			accusationMessage += "\n ... And it's wrong! :( Play on!";
 		}
 		JOptionPane.showMessageDialog(this, accusationMessage, "Accusation made!", JOptionPane.INFORMATION_MESSAGE);
+		clueGame.checkForMatchCompletion();
 		return isCorrect;
 	}
 
