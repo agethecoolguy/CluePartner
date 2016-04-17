@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 public class Player extends JPanel {
 	public static final int MAX_CARDS = 18;
-	private String playerName;
+	protected String playerName;
 	private int row;
 	private int column;
 	protected BoardCell currentCell;

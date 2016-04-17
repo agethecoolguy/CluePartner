@@ -63,28 +63,28 @@ public class GameActionTests {
     @Test
     public void testCorrectAccusation() { // tests a solution with all correct components
     	Solution accusation = board.getSolution();
-    	assertTrue(board.checkAccusation(accusation));
+    	assertTrue(board.checkAccusation(accusation, null));
     }
     
     @Test
     public void testIncorrectPerson() { // tests a solution with an incorrect person component
     	Solution accusation = new Solution(board.getSolution().person, board.getSolution().weapon, board.getSolution().room);
     	accusation.person = "Unfunny Name";
-    	assertFalse(board.checkAccusation(accusation));
+    	assertFalse(board.checkAccusation(accusation, ""));
     }
     
     @Test
     public void testIncorrectWeapon() { // tests a solution with an incorrect weapon component
     	Solution accusation = new Solution(board.getSolution().person, board.getSolution().weapon, board.getSolution().room);
     	accusation.person = "Unoriginal Weapon";
-    	assertFalse(board.checkAccusation(accusation));
+    	assertFalse(board.checkAccusation(accusation, ""));
     }
     
     @Test
     public void testIncorrectRoom() { // tests a solution with an incorrect room component
     	Solution accusation = new Solution(board.getSolution().person, board.getSolution().weapon, board.getSolution().room);
     	accusation.room = "Generic Room";
-    	assertFalse(board.checkAccusation(accusation));
+    	assertFalse(board.checkAccusation(accusation, ""));
     }
     
     @Test
@@ -92,17 +92,17 @@ public class GameActionTests {
     	Solution accusation = new Solution(board.getSolution().person, board.getSolution().weapon, board.getSolution().room);
     	accusation.person = "Unfunny Name";
     	accusation.person = "Unoriginal Weapon";
-    	assertFalse(board.checkAccusation(accusation));
+    	assertFalse(board.checkAccusation(accusation, ""));
     	
     	accusation = new Solution(board.getSolution().person, board.getSolution().weapon, board.getSolution().room);
     	accusation.person = "Unfunny Name";
     	accusation.room = "Generic Room";
-    	assertFalse(board.checkAccusation(accusation));
+    	assertFalse(board.checkAccusation(accusation, ""));
     	
     	accusation = new Solution(board.getSolution().person, board.getSolution().weapon, board.getSolution().room);
     	accusation.person = "Unoriginal Weapon";
     	accusation.room = "Generic Room";
-    	assertFalse(board.checkAccusation(accusation));
+    	assertFalse(board.checkAccusation(accusation, ""));
     }
     
     @Test
@@ -111,7 +111,7 @@ public class GameActionTests {
     	accusation.person = "Unfunny Name";
     	accusation.person = "Unoriginal Weapon";
     	accusation.room = "Generic Room";
-    	assertFalse(board.checkAccusation(accusation));
+    	assertFalse(board.checkAccusation(accusation, ""));
     }
     
     //---------------------------------TEST SUGGESTIONS: ONE PERSON-----------------------------------------

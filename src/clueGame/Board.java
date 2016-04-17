@@ -48,7 +48,9 @@ public class Board extends JPanel implements MouseListener {
 	private String suggestionResultString;
 	private String guessString;
 	private int indexOfHuman;
-	
+	boolean gameOver = false;
+	private Player winner;
+
 	public Board() {
 		instatiateDataMembers();
 		boardFile = "Clue_LayoutTeacher.csv";
@@ -328,9 +330,14 @@ public class Board extends JPanel implements MouseListener {
 		
 		if (result != null) {
 			suggestionResultString = result.getCardName();
+			for (Player p : players) {
+				if (!p.getSeenCards().contains(result)) {
+					p.getSeenCards().add(result);
+				}
+			}
 		}
 		else {
-			suggestionResultString = "No response...";
+			suggestionResultString = "No new clue...";
 		}
 		
 		return result;
@@ -349,13 +356,29 @@ public class Board extends JPanel implements MouseListener {
 		suggestionResultString = "";
 	}
 	
-	public boolean checkAccusation(Solution accusation) {
+	public boolean checkAccusation(Solution accusation, String playerName) {
+		boolean isCorrect = false;
 		if (accusation.person.equals(solution.person) &&
 			accusation.room.equals(solution.room) &&
 			accusation.weapon.equals(solution.weapon)) {
-			return true;
+			isCorrect = true;
 		}
-		return false;
+		String accusationMessage = "Accusation made by " + playerName + "!";
+		if (isCorrect) {
+			gameOver = true;
+			for (Player p : players) {
+				if (p.getPlayerName().equals(playerName)) {
+					winner = p;
+					break;
+				}
+			}
+			accusationMessage += "\n ... And it's correct!";
+		}
+		else {
+			accusationMessage += "\n ... And it's wrong! :( Play on!";
+		}
+		JOptionPane.showMessageDialog(this, accusationMessage, "Accusation made!", JOptionPane.INFORMATION_MESSAGE);
+		return isCorrect;
 	}
 
 	public BoardCell stringToBoardCell(String data) throws BadConfigFormatException {
@@ -564,7 +587,7 @@ public class Board extends JPanel implements MouseListener {
 	public ArrayList<Card> getHumanPlayerCards() {
 		for (Player p : players) {
 			if (p.isHuman()) {
-				return p.getMyCards();
+				return p.getSeenCards();
 			}
 		}
 		throw new RuntimeException("No human player found");
@@ -627,6 +650,14 @@ public class Board extends JPanel implements MouseListener {
     
     public Set<String> getRoomNames() {
 		return roomNames;
+	}
+    
+	public boolean isGameOver() {
+		return gameOver;
+	}
+	
+	public Player getWinner() {
+		return winner;
 	}
     
     public void findDoorways() {

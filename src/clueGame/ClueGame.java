@@ -60,6 +60,15 @@ public class ClueGame extends JFrame {
 		JOptionPane.showMessageDialog(this, splashScreenMessage, "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);		
 	}
 	
+	public void checkForMatchCompletion() {
+		if (board.isGameOver()) {
+			String winnerMessage = "The winner is " + board.getWinner().getPlayerName() + "!\n GAME OVER";
+			JOptionPane.showMessageDialog(this, winnerMessage, "A WINNER HAS RISEN", JOptionPane.INFORMATION_MESSAGE);
+			System.exit(NORMAL);
+		}
+		return;
+	}
+	
 	private JMenu createFileMenu(){
 	    JMenu menu = new JMenu("File");
 	    menu.add(createDetectiveNotesItem());
@@ -112,4 +121,5 @@ public class ClueGame extends JFrame {
 		ClueGame game = new ClueGame();
         game.setVisible(true);
     }
+
 }

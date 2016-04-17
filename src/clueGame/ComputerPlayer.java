@@ -7,7 +7,8 @@ import java.util.Set;
 
 public class ComputerPlayer extends Player {
 	private Solution accusation;
-	boolean solutionFound = false;
+	boolean solutionFound;
+	int numberOfTimesAccused;
 
     private char roomLastVisited = 'Z';
     //private char secondToLastRoomVisited = 'Z';
@@ -15,6 +16,8 @@ public class ComputerPlayer extends Player {
     public ComputerPlayer(String playerName, Color color, int row, int column) {
         super(playerName, color, row, column, false);
         super.isHuman = false;
+        solutionFound = false;
+        numberOfTimesAccused = 0;
     }
 
     public BoardCell pickLocation(Set<BoardCell> targets) {
@@ -42,18 +45,32 @@ public class ComputerPlayer extends Player {
         return cellToReturn;
     }
 
-    public void makeAccusation() {
-
+    public void makeAccusation(Solution accusation, Board board) {
+    	numberOfTimesAccused++;
+    	solutionFound = board.checkAccusation(accusation, playerName);
     }
 
     public void makeSuggestion(Board board) {
+    	Solution suggestion = generateSolution(board);
+    	suggestion.room = board.getRooms().get(currentCell.getRoomLetter());
+    	Card returnedCard = board.handleSuggestion(suggestion, this, currentCell);
+    	if (returnedCard != null) {
+    		myCards.add(returnedCard);
+    	}
+    	else {
+    		accusation = suggestion;
+    		solutionFound = true;
+    	}
+    }
+    
+    public Solution generateSolution(Board board) {
     	String person = null;
     	String weapon = null;
     	String room = null;
     	
     	Random rng = new Random();
     	ArrayList<String> tempList;
-    	
+    	    	
     	//The following for loops simply ensure that the computer tries REALLY hard not to suggest a card it knows is wrong
     	for(int i = 0; i < 100; i++) { // Select a person to suggest
     		tempList = new ArrayList<String>(board.getPlayerNames());
@@ -72,17 +89,15 @@ public class ComputerPlayer extends Player {
     		}
     	}
     	
-    	room = board.getRooms().get(currentCell.getRoomLetter());
-    	    	
-    	Solution suggestion = new Solution(person, weapon, room);
-    	Card returnedCard = board.handleSuggestion(suggestion, this, currentCell);
-    	if (returnedCard != null) {
-    		myCards.add(returnedCard);
+    	for(int i = 0; i < 100; i++) { // Select a room to suggest
+    		tempList = new ArrayList<String>(board.getRoomNames());
+    		room = tempList.get(rng.nextInt(tempList.size()));
+    		if ((!super.myCards.contains(new Card(room, CardType.ROOM)) && !super.seenCards.contains(new Card(room, CardType.ROOM))) || i == 100) {
+    			break;
+    		}
     	}
-    	else {
-    		accusation = suggestion;
-    		solutionFound = true;
-    	}
+    	
+		return new Solution(person, weapon, room);
     }
 
     public Character getRoomLastVisited() {
@@ -94,7 +109,34 @@ public class ComputerPlayer extends Player {
         roomLastVisited = room;
     }
     
+    public boolean determineIfSolutionViable(Board board) {
+    	if (solutionFound) { // no need to continue if a solution has already been found
+    		return false;
+    	}
+    	
+    	Random rng = new Random();
+    	int amountOfCards = myCards.size() + seenCards.size();
+    	// The following function converges to a 20% likelihood as (amountOfCards + numberOfTimesAcused) 
+    	// becomes large. As such, the greater this number, the more likely the computer will begin making
+    	// random accusations with an ever increasing probability of success.
+    	int oddsOfAccusing = (int) (100 * (1 - Math.exp((amountOfCards + numberOfTimesAccused) * -0.05)) / 5);
+    	if (rng.nextInt(100) <= oddsOfAccusing) {
+    		makeAccusation(generateSolution(board), board);
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    
 	public void makeMove(Set<BoardCell> targets, Board board) {
+		if (solutionFound) {
+			makeAccusation(accusation, board);
+			return;
+		}
+		if (determineIfSolutionViable(board)) {
+			return;
+		}
 		BoardCell moveCell = this.pickLocation(targets); 
 		super.move(moveCell);
 		if (moveCell.isWalkway()) {

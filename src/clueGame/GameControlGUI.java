@@ -84,6 +84,7 @@ public class GameControlGUI extends JPanel {
 				guessTextField.setText(clueGame.getBoard().getGuessString());
 			}
 			clueGame.repaint();
+			clueGame.checkForMatchCompletion();
 		}
 	}
 
