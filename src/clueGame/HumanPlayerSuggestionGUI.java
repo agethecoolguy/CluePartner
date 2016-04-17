@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class HumanPlayerSuggestion extends JDialog{
+public class HumanPlayerSuggestionGUI extends JDialog{
 	private Set<String> playerList;
 	private Set<String> weaponList;
 	private HumanPlayer humanPlayer;
@@ -27,7 +27,7 @@ public class HumanPlayerSuggestion extends JDialog{
 	private JComboBox<String> personCombo, weaponCombo;
 	private JButton submit, cancel;
 	
-	public HumanPlayerSuggestion(Set<String> players, Set<String> weapons, HumanPlayer human){
+	public HumanPlayerSuggestionGUI(Set<String> players, Set<String> weapons, HumanPlayer human){
 	    playerList = players;
 	    weaponList = weapons;
 	    humanPlayer = human;

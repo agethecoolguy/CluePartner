@@ -37,7 +37,7 @@ public class HumanPlayer extends Player {
 	public void makeSuggestion(Board board){		
 		currentRoom = board.getRooms().get(currentCell.getRoomLetter());		
     	suggestion = new Solution("unknown", "unknown", currentRoom);
-    	JDialog suggestionDialog = new HumanPlayerSuggestion(board.getPlayerNames(), board.getWeaponNames(), this);
+    	JDialog suggestionDialog = new HumanPlayerSuggestionGUI(board.getPlayerNames(), board.getWeaponNames(), this);
     	suggestionDialog.setVisible(true);
     	Card returnedCard = board.handleSuggestion(suggestion, this, currentCell);
     	if (returnedCard != null) {
