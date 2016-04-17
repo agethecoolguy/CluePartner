@@ -14,6 +14,7 @@ public class HumanPlayer extends Player {
 	private String currentRoom;
 	private Boolean suggestionCanceled = false;
 	private Solution accusation;
+	public Boolean humansSuggestionDisproved;
 
 	public HumanPlayer(String playerName, Color color, int row, int column) {
 		super(playerName, color, row, column, true);
@@ -34,13 +35,11 @@ public class HumanPlayer extends Player {
 		}
 		else{
 			makeSuggestion(board);
-		}
-	
+		}	
 	}
 	
 	public void makeSuggestion(Board board){
 		currentRoom = board.getRooms().get(currentCell.getRoomLetter());		
-    	//suggestion = new Solution("unknown", "unknown", currentRoom);
     	JDialog suggestionDialog = new HumanPlayerSuggestionGUI(board.getPlayerNames(), board.getWeaponNames(), this);
     	suggestionDialog.setVisible(true);
     	if (suggestionCanceled){
@@ -50,12 +49,10 @@ public class HumanPlayer extends Player {
     	suggestionCanceled = false;
     	Card returnedCard = board.handleSuggestion(suggestion, this, currentCell);    	
     	if (returnedCard != null) {
-    		String returnedCardMessage = "Your suggestion has been DISPROVED! Someone has the " + returnedCard.getCardName() + " card. :(";
-    		JOptionPane.showMessageDialog(this, returnedCardMessage, "Disproved!", JOptionPane.INFORMATION_MESSAGE);
+    		humansSuggestionDisproved = true;
     	}
-    	else if(returnedCard == null){
-    		String returnedCardMessage = "Your suggestion has been DISPROVED! Someone has the " + returnedCard.getCardName() + " card. :(";
-    		JOptionPane.showMessageDialog(this, returnedCardMessage, "Disproved!", JOptionPane.INFORMATION_MESSAGE);
+    	else{
+    		humansSuggestionDisproved = false;    		
     	}
 	}
 	

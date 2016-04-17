@@ -63,7 +63,9 @@ public class GameControlGUI extends JPanel {
     
     public class NextPlayerListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			clueGame.getBoard().clearSuggestionFields();
+			resultTextField.setText(clueGame.getBoard().getSuggestionResultString());
+			guessTextField.setText(clueGame.getBoard().getGuessString());
+			//clueGame.getBoard().clearSuggestionFields();
 			if (HumanPlayer.isHumanTurn) {
 				String errorMessage = "You need to finish your turn!";
 				JOptionPane.showMessageDialog(clueGame, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
