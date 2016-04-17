@@ -304,7 +304,7 @@ public class Board extends JPanel implements MouseListener {
 				p.move(accusingPlayer.getCurrentCell());
 				repaint();
 				break;
-			}			
+			}	
 		}
 		
 		int indexOfAccuser = -1; //This is an error code: index of accuser should never be -1

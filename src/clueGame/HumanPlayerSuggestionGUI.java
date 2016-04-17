@@ -35,7 +35,7 @@ public class HumanPlayerSuggestionGUI extends JDialog{
 		setSize(new Dimension(400, 250));
 		setLayout(new GridLayout(4, 2));
 		setTitle("Make a Guess");
-		setModal(true);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		
 		JLabel roomLabel = new JLabel("Your room");
 		JLabel personLabel = new JLabel("Person");
@@ -62,6 +62,8 @@ public class HumanPlayerSuggestionGUI extends JDialog{
 		ComboListener listener = new ComboListener();
 		personCombo.addActionListener(listener);
 		weaponCombo.addActionListener(listener);
+		submit.addActionListener(new SubmitListener());
+		cancel.addActionListener(new CancelListener());
 
 	}
 	
@@ -84,10 +86,24 @@ public class HumanPlayerSuggestionGUI extends JDialog{
 	private class ComboListener implements ActionListener {
 		  public void actionPerformed(ActionEvent e)
 		  {
-		    if (e.getSource() == playerList)
+		    if (e.getSource() == personCombo){
 		    	suggestedPerson = personCombo.getSelectedItem().toString();
+		    }
 		    else
 		      suggestedWeapon = weaponCombo.getSelectedItem().toString();
 		  }
 		}
+	class SubmitListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			humanPlayer.setSuggestion(new Solution(suggestedPerson, suggestedWeapon, humanPlayer.getCurrentRoom()));
+			setVisible(false);
+		}
+	}
+	
+	class CancelListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			humanPlayer.setSuggestionCanceled(true);
+			setVisible(false);
+		}
+	}
 }
