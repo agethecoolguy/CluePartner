@@ -363,7 +363,8 @@ public class Board extends JPanel implements MouseListener {
 			accusation.weapon.equals(solution.weapon)) {
 			isCorrect = true;
 		}
-		String accusationMessage = "Accusation made by " + playerName + "!";
+		String accusationMessage = "Accusation made by " + playerName + "!\n"
+				+ accusation.person + " in the " + accusation.room + " with the " + accusation.weapon;
 		if (isCorrect) {
 			gameOver = true;
 			for (Player p : players) {
