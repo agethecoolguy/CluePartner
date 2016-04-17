@@ -718,7 +718,7 @@ public class Board extends JPanel implements MouseListener {
 		if (b != null && (b.isWalkway() || b.isDoorway())) {
 			if (targetCells.contains(b)) {
 				HumanPlayer human = (HumanPlayer) players.get(indexOfHuman);
-				human.makeMove(b);
+				human.makeMove(b, this);
 				HumanPlayer.isHumanTurn = false;
 				unhighlightTargets();
 				repaint();
